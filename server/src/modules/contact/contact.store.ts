@@ -1,0 +1,88 @@
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { randomUUID } from 'node:crypto'
+import { z } from 'zod'
+import type {
+  ContactSubmission,
+  ContactSubmissionInput,
+} from '../../types/content.js'
+
+const storageFileUrl = new URL(
+  '../../../data/contact-submissions.json',
+  import.meta.url,
+)
+
+const storedSubmissionSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  email: z.string().email(),
+  inquiryType: z.string(),
+  message: z.string(),
+  receivedAt: z.string(),
+  status: z.literal('new'),
+})
+
+const storedSubmissionListSchema = z.array(storedSubmissionSchema)
+
+let writeQueue = Promise.resolve()
+
+async function ensureStore() {
+  const storagePath = fileURLToPath(storageFileUrl)
+
+  await mkdir(dirname(storagePath), { recursive: true })
+
+  try {
+    await readFile(storagePath, 'utf8')
+  } catch {
+    await writeFile(storagePath, '[]\n', 'utf8')
+  }
+}
+
+async function readSubmissions() {
+  await ensureStore()
+
+  const content = await readFile(storageFileUrl, 'utf8')
+  const parsed = JSON.parse(content) as unknown
+
+  return storedSubmissionListSchema.parse(parsed) as ContactSubmission[]
+}
+
+async function writeSubmissions(submissions: ContactSubmission[]) {
+  await writeFile(
+    storageFileUrl,
+    `${JSON.stringify(submissions, null, 2)}\n`,
+    'utf8',
+  )
+}
+
+function queueWrite<T>(operation: () => Promise<T>) {
+  const next = writeQueue.then(operation, operation)
+  writeQueue = next.then(
+    () => undefined,
+    () => undefined,
+  )
+
+  return next
+}
+
+export async function listContactSubmissions() {
+  return readSubmissions()
+}
+
+export async function createContactSubmission(input: ContactSubmissionInput) {
+  const submission: ContactSubmission = {
+    id: randomUUID(),
+    receivedAt: new Date().toISOString(),
+    status: 'new',
+    ...input,
+  }
+
+  await queueWrite(async () => {
+    const submissions = await readSubmissions()
+    submissions.unshift(submission)
+    await writeSubmissions(submissions)
+  })
+
+  return submission
+}

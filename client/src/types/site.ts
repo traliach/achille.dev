@@ -38,8 +38,16 @@ export interface Highlight {
 export interface ProjectSummary {
   title: string
   timeframe: string
+  role: string
+  featured: boolean
   summary: string
+  challenge: string
+  solution: string
   stack: string[]
+  metrics: Array<{
+    label: string
+    value: string
+  }>
   outcomes: string[]
 }
 

@@ -33,8 +33,8 @@ export function ContactSection({
           <span className="eyebrow">Contact</span>
           <h2>Connected contact flow</h2>
           <p className="section-intro">
-            The client now posts to the API. Right now submissions are validated and stored
-            in-memory on the server, which is enough to prove the flow before MongoDB is added.
+            The client now posts to the API and saves submissions to a workspace-backed store on
+            the server, which keeps the flow useful before MongoDB is added.
           </p>
 
           <form className="contact-form" onSubmit={onSubmit}>

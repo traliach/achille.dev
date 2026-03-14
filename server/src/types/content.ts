@@ -23,8 +23,16 @@ export interface ProfileContent {
 export interface ProjectSummary {
   title: string
   timeframe: string
+  role: string
+  featured: boolean
   summary: string
+  challenge: string
+  solution: string
   stack: string[]
+  metrics: Array<{
+    label: string
+    value: string
+  }>
   outcomes: string[]
 }
 
@@ -52,4 +60,5 @@ export interface ContactSubmissionInput {
 export interface ContactSubmission extends ContactSubmissionInput {
   id: string
   receivedAt: string
+  status: 'new'
 }
