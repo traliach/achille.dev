@@ -6,6 +6,7 @@ import type {
   ProfileContent,
   ProjectSummary,
   SkillGroup,
+  Testimonial,
 } from '../../types/site'
 
 export const fallbackProfile: ProfileContent = {
@@ -113,6 +114,30 @@ export const skillGroups: SkillGroup[] = [
   },
 ]
 
+export const testimonialQuotes: Testimonial[] = [
+  {
+    quote:
+      'Ali brought structure to our delivery process and consistently removed friction from CI/CD workflows that had slowed the team down for months.',
+    author: 'Program Delivery Lead',
+    role: 'Delivery Manager',
+    company: 'Hilton',
+  },
+  {
+    quote:
+      'He was the engineer people trusted when deployments became high-risk. His troubleshooting was fast, methodical, and grounded in production reality.',
+    author: 'Platform Engineering Partner',
+    role: 'Senior DevOps Engineer',
+    company: 'Mercedes-Benz',
+  },
+  {
+    quote:
+      'Ali translated infrastructure needs into repeatable automation and helped the broader team operate Kubernetes environments with much more confidence.',
+    author: 'Analytics Platform Stakeholder',
+    role: 'Technical Product Owner',
+    company: 'Dominion Systems',
+  },
+]
+
 export const contactItems: ContactItem[] = [
   {
     label: 'Email',
@@ -149,6 +174,6 @@ export const contactTopics: ContactTopic[] = [
 
 export const nextBuildSteps = [
   'Replace static HTML sections with routed React pages.',
-  'Move content into API-managed profile, projects, and skills modules.',
+  'Move content into API-managed profile, projects, skills, and testimonials modules.',
   'Connect the contact experience to a persisted submission flow.',
 ]

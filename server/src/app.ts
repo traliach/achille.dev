@@ -10,6 +10,7 @@ import { healthRouter } from './modules/health/health.routes.js'
 import { profileRouter } from './modules/profile/profile.routes.js'
 import { projectsRouter } from './modules/projects/projects.routes.js'
 import { skillsRouter } from './modules/skills/skills.routes.js'
+import { testimonialsRouter } from './modules/testimonials/testimonials.routes.js'
 
 export const app = express()
 
@@ -33,6 +34,7 @@ app.use('/api/health', healthRouter)
 app.use('/api/profile', profileRouter)
 app.use('/api/projects', projectsRouter)
 app.use('/api/skills', skillsRouter)
+app.use('/api/testimonials', testimonialsRouter)
 app.use('/api/contact', contactRouter)
 
 app.use(notFoundMiddleware)

@@ -68,7 +68,7 @@ export function logStartup(port: number, clientOrigin: string) {
     `${colors.white}  Client:${colors.reset} ${clientOrigin}`,
   )
   console.log(
-    `${colors.white}  Routes:${colors.reset} /api/health /api/profile /api/projects /api/skills /api/contact`,
+    `${colors.white}  Routes:${colors.reset} /api/health /api/profile /api/projects /api/skills /api/testimonials /api/contact`,
   )
   console.log('')
 }

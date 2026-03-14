@@ -9,6 +9,7 @@ import { HighlightsSection } from '../components/home/HighlightsSection'
 import { PortfolioHeader } from '../components/home/PortfolioHeader'
 import { ProjectsSection } from '../components/home/ProjectsSection'
 import { SkillsSection } from '../components/home/SkillsSection'
+import { TestimonialsSection } from '../components/home/TestimonialsSection'
 import { usePortfolioData } from '../hooks/usePortfolioData'
 
 export function HomePage() {
@@ -23,6 +24,7 @@ export function HomePage() {
     skills,
     submitMessage,
     submitState,
+    testimonials,
   } = usePortfolioData()
 
   return (
@@ -32,6 +34,7 @@ export function HomePage() {
       <HighlightsSection items={highlightMetrics} />
       <ProjectsSection projects={projects} />
       <SkillsSection skills={skills} />
+      <TestimonialsSection testimonials={testimonials} />
       <ContactSection
         contactForm={contactForm}
         contactItems={contactItems}

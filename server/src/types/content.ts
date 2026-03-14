@@ -26,6 +26,13 @@ export interface SkillGroup {
   items: string[]
 }
 
+export interface Testimonial {
+  quote: string
+  author: string
+  role: string
+  company: string
+}
+
 export interface ContactSubmissionInput {
   name: string
   email: string

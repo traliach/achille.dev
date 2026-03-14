@@ -5,6 +5,7 @@ import type {
   ProfileContent,
   ProjectSummary,
   SkillGroup,
+  Testimonial,
 } from '../types/site'
 
 async function readJson<T>(path: string): Promise<T> {
@@ -31,6 +32,10 @@ export function fetchProjects() {
 
 export function fetchSkills() {
   return readJson<SkillGroup[]>('/api/skills')
+}
+
+export function fetchTestimonials() {
+  return readJson<Testimonial[]>('/api/testimonials')
 }
 
 export async function submitContact(payload: ContactSubmissionInput) {

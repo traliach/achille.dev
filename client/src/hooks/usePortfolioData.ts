@@ -10,12 +10,14 @@ import {
   fallbackProfile,
   projectSummaries as fallbackProjects,
   skillGroups as fallbackSkillGroups,
+  testimonialQuotes as fallbackTestimonials,
 } from '../features/portfolio/content'
 import {
   fetchHealth,
   fetchProfile,
   fetchProjects,
   fetchSkills,
+  fetchTestimonials,
   submitContact,
 } from '../services/api'
 import type {
@@ -26,6 +28,7 @@ import type {
   ProjectSummary,
   SkillGroup,
   SubmitState,
+  Testimonial,
 } from '../types/site'
 
 export function usePortfolioData() {
@@ -34,6 +37,8 @@ export function usePortfolioData() {
   const [profile, setProfile] = useState<ProfileContent>(fallbackProfile)
   const [projects, setProjects] = useState<ProjectSummary[]>(fallbackProjects)
   const [skills, setSkills] = useState<SkillGroup[]>(fallbackSkillGroups)
+  const [testimonials, setTestimonials] =
+    useState<Testimonial[]>(fallbackTestimonials)
   const [contactForm, setContactForm] =
     useState<ContactSubmissionInput>(createInitialContactForm)
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
@@ -43,12 +48,19 @@ export function usePortfolioData() {
     let active = true
 
     async function loadData() {
-      const [healthResult, profileResult, projectResult, skillResult] =
+      const [
+        healthResult,
+        profileResult,
+        projectResult,
+        skillResult,
+        testimonialResult,
+      ] =
         await Promise.allSettled([
           fetchHealth(),
           fetchProfile(),
           fetchProjects(),
           fetchSkills(),
+          fetchTestimonials(),
         ])
 
       if (!active) {
@@ -73,6 +85,10 @@ export function usePortfolioData() {
 
         if (skillResult.status === 'fulfilled') {
           setSkills(skillResult.value)
+        }
+
+        if (testimonialResult.status === 'fulfilled') {
+          setTestimonials(testimonialResult.value)
         }
       })
     }
@@ -126,5 +142,6 @@ export function usePortfolioData() {
     skills,
     submitMessage,
     submitState,
+    testimonials,
   }
 }
