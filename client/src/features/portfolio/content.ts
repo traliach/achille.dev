@@ -1,6 +1,7 @@
 import type {
   ContactItem,
   ContactSubmissionInput,
+  ContactTopic,
   Highlight,
   ProfileContent,
   ProjectSummary,
@@ -129,17 +130,25 @@ export const contactItems: ContactItem[] = [
   },
 ]
 
-export const initialContactForm: ContactSubmissionInput = {
-  name: '',
-  email: '',
-  inquiryType: 'devops-role',
-  message: '',
+export function createInitialContactForm(): ContactSubmissionInput {
+  return {
+    name: '',
+    email: '',
+    inquiryType: 'devops-role',
+    message: '',
+  }
 }
 
-export const contactTopics = [
+export const contactTopics: ContactTopic[] = [
   { value: 'devops-role', label: 'DevOps role or interview conversation' },
   { value: 'ci-cd-modernization', label: 'CI/CD modernization' },
   { value: 'cloud-migration', label: 'Cloud migration or infrastructure as code' },
   { value: 'platform-reliability', label: 'Containers, Kubernetes, or platform reliability' },
   { value: 'software-engineering', label: 'Software engineering collaboration' },
+]
+
+export const nextBuildSteps = [
+  'Replace static HTML sections with routed React pages.',
+  'Move content into API-managed profile, projects, and skills modules.',
+  'Connect the contact experience to a persisted submission flow.',
 ]

@@ -1,4 +1,5 @@
 export type ApiState = 'loading' | 'online' | 'offline'
+export type SubmitState = 'idle' | 'submitting' | 'success' | 'error'
 
 export interface ApiHealth {
   service: string
@@ -44,6 +45,11 @@ export interface ContactItem {
   label: string
   value: string
   href?: string
+}
+
+export interface ContactTopic {
+  value: string
+  label: string
 }
 
 export interface ContactSubmissionInput {
