@@ -34,6 +34,17 @@ async function fetchWithTimeout(
 }
 
 async function parseJson<T>(response: Response, context: string): Promise<T> {
+  const contentType = response.headers.get('content-type') ?? ''
+
+  if (!contentType.includes('application/json')) {
+    const bodyPreview = (await response.text().catch(() => '')).slice(0, 200)
+    console.error(
+      `[api] ${context} returned non-JSON content-type "${contentType}"`,
+      bodyPreview,
+    )
+    throw new Error('Expected JSON response from API')
+  }
+
   try {
     return (await response.json()) as T
   } catch (error) {
