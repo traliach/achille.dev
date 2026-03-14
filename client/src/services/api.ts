@@ -33,6 +33,15 @@ async function fetchWithTimeout(
   }
 }
 
+async function parseJson<T>(response: Response, context: string): Promise<T> {
+  try {
+    return (await response.json()) as T
+  } catch (error) {
+    console.error(`[api] ${context} returned invalid JSON`, error)
+    throw new Error('Invalid JSON response from API')
+  }
+}
+
 async function readJson<T>(path: string): Promise<T> {
   console.info(`[api] GET ${path}`)
   const response = await fetchWithTimeout(path)
@@ -43,7 +52,7 @@ async function readJson<T>(path: string): Promise<T> {
   }
 
   console.info(`[api] GET ${path} ok`)
-  return (await response.json()) as T
+  return parseJson<T>(response, `GET ${path}`)
 }
 
 export function fetchHealth() {
@@ -86,5 +95,5 @@ export async function submitContact(payload: ContactSubmissionInput) {
   }
 
   console.info('[api] POST /api/contact ok')
-  return (await response.json()) as ContactSubmissionResult
+  return parseJson<ContactSubmissionResult>(response, 'POST /api/contact')
 }
