@@ -236,7 +236,7 @@ export const contactTopics: ContactTopic[] = [
 ]
 
 export const nextBuildSteps = [
-  'Replace static HTML sections with routed React pages.',
-  'Move content into API-managed profile, projects, skills, and testimonials modules.',
-  'Connect the contact experience to a persisted submission flow.',
+  'Expand routed pages into deeper project and experience detail screens.',
+  'Move API-managed content from local store implementations into MongoDB.',
+  'Add auth and admin workflows for controlled content updates.',
 ]

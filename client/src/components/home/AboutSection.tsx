@@ -5,13 +5,18 @@ interface AboutSectionProps {
 }
 
 export function AboutSection({ profile }: AboutSectionProps) {
+  const about = profile.about ?? profile.summary
+  const availability = profile.availability ?? 'Open to opportunities'
+  const strengths = profile.strengths ?? []
+  const timeline = profile.timeline ?? []
+
   return (
     <section className="section" id="about">
       <div className="surface about-layout">
         <div>
           <span className="eyebrow">About</span>
           <h2>Execution-focused cloud and delivery engineering</h2>
-          <p className="section-intro">{profile.about}</p>
+          <p className="section-intro">{about}</p>
 
           <div className="about-actions">
             <a className="button button--primary" href={profile.links.resume} download>
@@ -24,7 +29,7 @@ export function AboutSection({ profile }: AboutSectionProps) {
 
           <div className="availability-note">
             <span className="eyebrow">Availability</span>
-            <p>{profile.availability}</p>
+            <p>{availability}</p>
           </div>
         </div>
 
@@ -32,7 +37,7 @@ export function AboutSection({ profile }: AboutSectionProps) {
           <article className="surface">
             <span className="eyebrow">Core strengths</span>
             <ul className="detail-list">
-              {profile.strengths.map((item) => (
+              {strengths.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -41,7 +46,7 @@ export function AboutSection({ profile }: AboutSectionProps) {
           <article className="surface">
             <span className="eyebrow">Career timeline</span>
             <div className="timeline-list">
-              {profile.timeline.map((item) => (
+              {timeline.map((item) => (
                 <div className="timeline-item" key={`${item.title}-${item.period}`}>
                   <p className="timeline-period">{item.period}</p>
                   <h3>{item.title}</h3>

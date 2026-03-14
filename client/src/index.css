@@ -94,10 +94,14 @@ a {
 .nav-links a {
   text-decoration: none;
   color: var(--text-muted);
+  padding-bottom: 0.15rem;
+  border-bottom: 2px solid transparent;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   color: var(--accent-deep);
+  border-color: rgba(19, 104, 214, 0.4);
 }
 
 .hero {

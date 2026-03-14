@@ -1,9 +1,9 @@
-import { AboutSection } from '../components/home/AboutSection'
 import {
   contactItems,
   highlightMetrics,
   contactTopics,
 } from '../features/portfolio/content'
+import { AboutSection } from '../components/home/AboutSection'
 import { ContactSection } from '../components/home/ContactSection'
 import { HeroSection } from '../components/home/HeroSection'
 import { HighlightsSection } from '../components/home/HighlightsSection'
@@ -46,9 +46,8 @@ export function HomePage() {
         submitMessage={submitMessage}
         submitState={submitState}
       />
-
       <footer className="footer">
-        <p>Client scaffold ready. Next step: install and run the server workspace.</p>
+        <p>Client scaffold ready. Next step: keep changes small and testable.</p>
       </footer>
     </div>
   )

@@ -25,10 +25,10 @@ export function HeroSection({ apiState, health, profile }: HeroSectionProps) {
             Read profile story
           </a>
           <a className="button button--primary" href="#projects">
-            View starter sections
+            View case studies
           </a>
           <a className="button button--secondary" href="#contact">
-            Open contact block
+            Open contact page
           </a>
         </div>
       </div>

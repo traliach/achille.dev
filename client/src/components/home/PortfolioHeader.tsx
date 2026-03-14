@@ -13,6 +13,7 @@ export function PortfolioHeader({ name, title }: PortfolioHeaderProps) {
 
       <nav className="nav-links" aria-label="Portfolio sections">
         <a href="#overview">Overview</a>
+        <a href="#about">About</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>

@@ -31,6 +31,43 @@ import type {
   Testimonial,
 } from '../types/site'
 
+function mergeProfileContent(profile: ProfileContent): ProfileContent {
+  return {
+    ...fallbackProfile,
+    ...profile,
+    about: profile.about ?? fallbackProfile.about,
+    availability: profile.availability ?? fallbackProfile.availability,
+    certifications: profile.certifications ?? fallbackProfile.certifications,
+    strengths: profile.strengths ?? fallbackProfile.strengths,
+    timeline: profile.timeline ?? fallbackProfile.timeline,
+    links: {
+      ...fallbackProfile.links,
+      ...profile.links,
+    },
+  }
+}
+
+function mergeProjects(projects: ProjectSummary[]): ProjectSummary[] {
+  return projects.map((project, index) => {
+    const fallbackProject = fallbackProjects[index]
+
+    return {
+      ...fallbackProject,
+      ...project,
+      challenge: project.challenge ?? fallbackProject?.challenge ?? project.summary,
+      solution:
+        project.solution ??
+        fallbackProject?.solution ??
+        'Delivery and automation improvements applied across the stack.',
+      metrics: project.metrics ?? fallbackProject?.metrics ?? [],
+      outcomes: project.outcomes ?? fallbackProject?.outcomes ?? [],
+      stack: project.stack ?? fallbackProject?.stack ?? [],
+      role: project.role ?? fallbackProject?.role ?? 'DevOps Engineer',
+      featured: project.featured ?? fallbackProject?.featured ?? false,
+    }
+  })
+}
+
 export function usePortfolioData() {
   const [apiState, setApiState] = useState<ApiState>('loading')
   const [health, setHealth] = useState<ApiHealth | null>(null)
@@ -48,6 +85,8 @@ export function usePortfolioData() {
     let active = true
 
     async function loadData() {
+      console.info('[portfolio] loading API data')
+
       const [
         healthResult,
         profileResult,
@@ -67,6 +106,32 @@ export function usePortfolioData() {
         return
       }
 
+      console.info('[portfolio] health', healthResult.status)
+      console.info('[portfolio] profile', profileResult.status)
+      console.info('[portfolio] projects', projectResult.status)
+      console.info('[portfolio] skills', skillResult.status)
+      console.info('[portfolio] testimonials', testimonialResult.status)
+
+      if (healthResult.status === 'rejected') {
+        console.error('[portfolio] health failed', healthResult.reason)
+      }
+
+      if (profileResult.status === 'rejected') {
+        console.error('[portfolio] profile failed', profileResult.reason)
+      }
+
+      if (projectResult.status === 'rejected') {
+        console.error('[portfolio] projects failed', projectResult.reason)
+      }
+
+      if (skillResult.status === 'rejected') {
+        console.error('[portfolio] skills failed', skillResult.reason)
+      }
+
+      if (testimonialResult.status === 'rejected') {
+        console.error('[portfolio] testimonials failed', testimonialResult.reason)
+      }
+
       startTransition(() => {
         if (healthResult.status === 'fulfilled') {
           setHealth(healthResult.value)
@@ -76,11 +141,11 @@ export function usePortfolioData() {
         }
 
         if (profileResult.status === 'fulfilled') {
-          setProfile(profileResult.value)
+          setProfile(mergeProfileContent(profileResult.value))
         }
 
         if (projectResult.status === 'fulfilled') {
-          setProjects(projectResult.value)
+          setProjects(mergeProjects(projectResult.value))
         }
 
         if (skillResult.status === 'fulfilled') {
@@ -91,6 +156,8 @@ export function usePortfolioData() {
           setTestimonials(testimonialResult.value)
         }
       })
+
+      console.info('[portfolio] render state updated')
     }
 
     void loadData()
@@ -115,12 +182,14 @@ export function usePortfolioData() {
     event.preventDefault()
     setSubmitState('submitting')
     setSubmitMessage('')
+    console.info('[portfolio] submitting contact form')
 
     try {
       const result = await submitContact(contactForm)
       setSubmitState('success')
       setSubmitMessage(result.message)
       setContactForm(createInitialContactForm())
+      console.info('[portfolio] contact form success')
     } catch (error) {
       setSubmitState('error')
       setSubmitMessage(
@@ -128,6 +197,7 @@ export function usePortfolioData() {
           ? error.message
           : 'Unable to send message right now.',
       )
+      console.error('[portfolio] contact form failed', error)
     }
   }
 

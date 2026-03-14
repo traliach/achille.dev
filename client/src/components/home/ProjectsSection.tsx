@@ -32,22 +32,24 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               <div className="project-story">
                 <div>
                   <span className="eyebrow">Challenge</span>
-                  <p>{project.challenge}</p>
+                  <p>{project.challenge ?? project.summary}</p>
                 </div>
                 <div>
                   <span className="eyebrow">Approach</span>
-                  <p>{project.solution}</p>
+                  <p>{project.solution ?? 'Delivery and automation improvements applied across the stack.'}</p>
                 </div>
               </div>
 
-              <div className="project-metrics">
-                {project.metrics.map((metric) => (
-                  <div className="metric-chip" key={`${project.title}-${metric.label}`}>
-                    <strong>{metric.value}</strong>
-                    <span>{metric.label}</span>
-                  </div>
-                ))}
-              </div>
+              {project.metrics?.length ? (
+                <div className="project-metrics">
+                  {project.metrics.map((metric) => (
+                    <div className="metric-chip" key={`${project.title}-${metric.label}`}>
+                      <strong>{metric.value}</strong>
+                      <span>{metric.label}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
 
               <ul className="stack-list">
                 {project.stack.map((item) => (
