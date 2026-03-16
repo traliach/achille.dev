@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import { env } from './env.js'
-import { logInfo, logSuccess, logWarn } from '../utils/logger.js'
+import { logError, logInfo, logSuccess, logWarn } from '../utils/logger.js'
+
+let hasConnectionListeners = false
 
 function getDatabaseTargetLabel(uri: string) {
   try {
@@ -11,11 +13,29 @@ function getDatabaseTargetLabel(uri: string) {
   }
 }
 
+function attachConnectionListeners() {
+  if (hasConnectionListeners) {
+    return
+  }
+
+  mongoose.connection.on('error', (error) => {
+    logError(`MongoDB connection error: ${error.message}`)
+  })
+
+  mongoose.connection.on('disconnected', () => {
+    logWarn('MongoDB disconnected.')
+  })
+
+  hasConnectionListeners = true
+}
+
 export async function connectDatabase() {
   if (!env.MONGODB_URI) {
     logWarn('MongoDB URI not set. Skipping database connection.')
     return false
   }
+
+  attachConnectionListeners()
 
   const target = getDatabaseTargetLabel(env.MONGODB_URI)
   logInfo(`Connecting to MongoDB at ${target}...`)
