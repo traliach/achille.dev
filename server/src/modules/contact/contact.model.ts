@@ -19,6 +19,9 @@ const contactSubmissionSchema = new Schema<ContactSubmission>(
   },
 )
 
+// Keep admin-style "latest first" reads fast as submissions grow.
+contactSubmissionSchema.index({ receivedAt: -1 })
+
 export const ContactSubmissionModel =
   mongoose.models.ContactSubmission ??
   model<ContactSubmission>('ContactSubmission', contactSubmissionSchema)

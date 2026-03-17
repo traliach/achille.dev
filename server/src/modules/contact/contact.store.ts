@@ -8,6 +8,7 @@ import type {
   ContactSubmission,
   ContactSubmissionInput,
 } from '../../types/content.js'
+import { logInfo, logWarn } from '../../utils/logger.js'
 import { ContactSubmissionModel } from './contact.model.js'
 
 const storageFileUrl = new URL(
@@ -103,17 +104,21 @@ async function createMongoSubmission(input: ContactSubmissionInput) {
 
 export async function listContactSubmissions() {
   if (isDatabaseReady()) {
+    logInfo('Listing contact submissions from MongoDB.')
     return listMongoSubmissions()
   }
 
+  logWarn('MongoDB not ready. Listing contact submissions from file fallback.')
   return readSubmissions()
 }
 
 export async function createContactSubmission(input: ContactSubmissionInput) {
   if (isDatabaseReady()) {
+    logInfo(`Saving contact submission for ${input.email} to MongoDB.`)
     return createMongoSubmission(input)
   }
 
+  logWarn(`MongoDB not ready. Saving contact submission for ${input.email} to file fallback.`)
   const submission: ContactSubmission = {
     id: randomUUID(),
     receivedAt: new Date().toISOString(),

@@ -17,6 +17,7 @@ export const contactRouter = Router()
 
 contactRouter.post('/', async (request, response, next) => {
   try {
+    // Validate at the edge so the store only sees clean submission data.
     const result = contactSchema.safeParse(request.body)
 
     if (!result.success) {
