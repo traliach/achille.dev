@@ -303,6 +303,22 @@ h3 {
   align-content: start;
 }
 
+.testimonials-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.testimonial-submit-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.testimonial-form {
+  margin-top: 0;
+}
+
 .testimonial-quote {
   margin: 0;
   font-size: 1.02rem;
@@ -702,6 +718,7 @@ h3 {
   .hero,
   .about-layout,
   .contact-layout,
+  .testimonials-layout,
   .grid--metrics,
   .grid--cards {
     grid-template-columns: 1fr;

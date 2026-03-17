@@ -27,9 +27,12 @@ function toAdminTestimonial(document: AdminTestimonialDocument) {
     order: document.order,
     quote: document.quote,
     author: document.author,
+    email: document.email ?? '',
     role: document.role,
     company: document.company,
+    submittedAt: document.submittedAt ?? '',
     status: document.status ?? 'approved',
+    source: document.source ?? 'seed',
   }
 }
 
@@ -66,7 +69,10 @@ adminTestimonialsRouter.post('/', async (request, response, next) => {
 
     const document = await TestimonialModel.create({
       order: nextOrder,
+      email: '',
+      submittedAt: new Date().toISOString(),
       status: 'pending',
+      source: 'admin',
       ...result.data,
     })
 
@@ -105,7 +111,10 @@ adminTestimonialsRouter.put('/:id', async (request, response, next) => {
       request.params.id,
       {
         order: existing.order,
+        email: existing.email ?? '',
+        submittedAt: existing.submittedAt ?? '',
         status: existing.status ?? 'approved',
+        source: existing.source ?? 'seed',
         ...result.data,
       },
       { new: true },

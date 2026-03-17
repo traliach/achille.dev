@@ -19,6 +19,8 @@ export function HomePage() {
     contactForm,
     handleContactChange,
     handleContactSubmit,
+    handleTestimonialChange,
+    handleTestimonialSubmit,
     health,
     profile,
     projects,
@@ -26,6 +28,9 @@ export function HomePage() {
     submitMessage,
     submitState,
     testimonials,
+    testimonialForm,
+    testimonialSubmitMessage,
+    testimonialSubmitState,
   } = usePortfolioData()
 
   return (
@@ -36,7 +41,14 @@ export function HomePage() {
       <HighlightsSection items={highlightMetrics} />
       <ProjectsSection projects={projects} />
       <SkillsSection skills={skills} />
-      <TestimonialsSection testimonials={testimonials} />
+      <TestimonialsSection
+        onChange={handleTestimonialChange}
+        onSubmit={handleTestimonialSubmit}
+        submitMessage={testimonialSubmitMessage}
+        submitState={testimonialSubmitState}
+        testimonialForm={testimonialForm}
+        testimonials={testimonials}
+      />
       <ContactSection
         contactForm={contactForm}
         contactItems={contactItems}

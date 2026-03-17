@@ -6,6 +6,8 @@ import type {
   ProjectSummary,
   SkillGroup,
   Testimonial,
+  TestimonialSubmissionInput,
+  TestimonialSubmissionResult,
 } from '../types/site'
 
 const REQUEST_TIMEOUT_MS = 8000
@@ -66,6 +68,18 @@ async function readJson<T>(path: string): Promise<T> {
   return parseJson<T>(response, `GET ${path}`)
 }
 
+function extractErrorMessage(errorBody: unknown, fallback: string) {
+  if (errorBody && typeof errorBody === 'object' && 'message' in errorBody) {
+    const message = errorBody.message
+
+    if (typeof message === 'string' && message.trim()) {
+      return message
+    }
+  }
+
+  return fallback
+}
+
 export function fetchHealth() {
   return readJson<ApiHealth>('/api/health')
 }
@@ -102,9 +116,39 @@ export async function submitContact(payload: ContactSubmissionInput) {
       | null
 
     console.error(`[api] POST /api/contact failed with status ${response.status}`)
-    throw new Error(errorBody?.message ?? `Request failed: ${response.status}`)
+    throw new Error(
+      extractErrorMessage(errorBody, `Request failed: ${response.status}`),
+    )
   }
 
   console.info('[api] POST /api/contact ok')
   return parseJson<ContactSubmissionResult>(response, 'POST /api/contact')
+}
+
+export async function submitTestimonial(payload: TestimonialSubmissionInput) {
+  console.info('[api] POST /api/testimonials')
+  const response = await fetchWithTimeout('/api/testimonials', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!response.ok) {
+    const errorBody = (await response.json().catch(() => null)) as
+      | { message?: string }
+      | null
+
+    console.error(`[api] POST /api/testimonials failed with status ${response.status}`)
+    throw new Error(
+      extractErrorMessage(errorBody, `Request failed: ${response.status}`),
+    )
+  }
+
+  console.info('[api] POST /api/testimonials ok')
+  return parseJson<TestimonialSubmissionResult>(
+    response,
+    'POST /api/testimonials',
+  )
 }

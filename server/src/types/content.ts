@@ -55,8 +55,23 @@ export type TestimonialModerationStatus =
   | 'approved'
   | 'rejected'
 
+export type TestimonialSource = 'seed' | 'public' | 'admin'
+
+export interface TestimonialSubmissionInput extends Testimonial {
+  email: string
+}
+
+export interface TestimonialSubmissionResult {
+  id: string
+  message: string
+  receivedAt: string
+}
+
 export interface AdminTestimonial extends Testimonial {
+  email: string
+  submittedAt: string
   status: TestimonialModerationStatus
+  source: TestimonialSource
 }
 
 export interface ContactSubmissionInput {

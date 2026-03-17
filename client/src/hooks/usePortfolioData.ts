@@ -6,6 +6,7 @@ import {
   type FormEvent,
 } from 'react'
 import {
+  createInitialTestimonialForm,
   createInitialContactForm,
   fallbackProfile,
   projectSummaries as fallbackProjects,
@@ -19,6 +20,7 @@ import {
   fetchSkills,
   fetchTestimonials,
   submitContact,
+  submitTestimonial,
 } from '../services/api'
 import type {
   ApiHealth,
@@ -29,6 +31,7 @@ import type {
   SkillGroup,
   SubmitState,
   Testimonial,
+  TestimonialSubmissionInput,
 } from '../types/site'
 
 function isObject(value: unknown): value is Record<string, unknown> {
@@ -135,8 +138,13 @@ export function usePortfolioData() {
     useState<Testimonial[]>(fallbackTestimonials)
   const [contactForm, setContactForm] =
     useState<ContactSubmissionInput>(createInitialContactForm)
+  const [testimonialForm, setTestimonialForm] =
+    useState<TestimonialSubmissionInput>(createInitialTestimonialForm)
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
+  const [testimonialSubmitState, setTestimonialSubmitState] =
+    useState<SubmitState>('idle')
+  const [testimonialSubmitMessage, setTestimonialSubmitMessage] = useState('')
 
   useEffect(() => {
     let active = true
@@ -235,6 +243,17 @@ export function usePortfolioData() {
     }))
   }
 
+  function handleTestimonialChange(
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
+    const { name, value } = event.target
+
+    setTestimonialForm((current) => ({
+      ...current,
+      [name]: value,
+    }))
+  }
+
   async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setSubmitState('submitting')
@@ -258,11 +277,36 @@ export function usePortfolioData() {
     }
   }
 
+  async function handleTestimonialSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setTestimonialSubmitState('submitting')
+    setTestimonialSubmitMessage('')
+    console.info('[portfolio] submitting testimonial form')
+
+    try {
+      const result = await submitTestimonial(testimonialForm)
+      setTestimonialSubmitState('success')
+      setTestimonialSubmitMessage(result.message)
+      setTestimonialForm(createInitialTestimonialForm())
+      console.info('[portfolio] testimonial form success')
+    } catch (error) {
+      setTestimonialSubmitState('error')
+      setTestimonialSubmitMessage(
+        error instanceof Error
+          ? error.message
+          : 'Unable to send testimonial right now.',
+      )
+      console.error('[portfolio] testimonial form failed', error)
+    }
+  }
+
   return {
     apiState,
     contactForm,
     handleContactChange,
     handleContactSubmit,
+    handleTestimonialChange,
+    handleTestimonialSubmit,
     health,
     profile,
     projects,
@@ -270,5 +314,8 @@ export function usePortfolioData() {
     submitMessage,
     submitState,
     testimonials,
+    testimonialForm,
+    testimonialSubmitMessage,
+    testimonialSubmitState,
   }
 }

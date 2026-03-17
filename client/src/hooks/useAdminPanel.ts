@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react'
 import {
   createAdminProject,
   createAdminSkillGroup,
-  createAdminTestimonial,
   deleteAdminProject,
   deleteAdminSkillGroup,
-  deleteAdminTestimonial,
   fetchAdminContacts,
   fetchAdminProfile,
   fetchAdminProjects,
@@ -233,12 +231,14 @@ export function useAdminPanel() {
 
   async function saveTestimonial(
     testimonialPayload: Testimonial,
-    testimonialId?: string,
+    testimonialId: string,
   ) {
     const activeToken = requireToken()
-    const nextTestimonial = testimonialId
-      ? await updateAdminTestimonial(activeToken, testimonialId, testimonialPayload)
-      : await createAdminTestimonial(activeToken, testimonialPayload)
+    const nextTestimonial = await updateAdminTestimonial(
+      activeToken,
+      testimonialId,
+      testimonialPayload,
+    )
 
     setTestimonials((current) => {
       const existingIndex = current.findIndex(
@@ -257,14 +257,6 @@ export function useAdminPanel() {
     })
 
     return nextTestimonial
-  }
-
-  async function removeTestimonial(testimonialId: string) {
-    const activeToken = requireToken()
-    await deleteAdminTestimonial(activeToken, testimonialId)
-    setTestimonials((current) =>
-      current.filter((testimonial) => testimonial.id !== testimonialId),
-    )
   }
 
   async function moderateTestimonial(
@@ -316,7 +308,6 @@ export function useAdminPanel() {
     refresh,
     removeProject,
     removeSkillGroup,
-    removeTestimonial,
     saveContactStatus,
     saveProfile,
     saveProject,

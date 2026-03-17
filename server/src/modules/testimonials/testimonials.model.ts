@@ -12,13 +12,21 @@ const testimonialSchema = new Schema<TestimonialDocument>(
     order: { type: Number, required: true, unique: true },
     quote: { type: String, required: true, trim: true },
     author: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true, default: '' },
     role: { type: String, required: true, trim: true },
     company: { type: String, required: true, trim: true },
+    submittedAt: { type: String, required: true, default: () => new Date().toISOString() },
     status: {
       type: String,
       required: true,
       enum: ['pending', 'approved', 'rejected'],
       default: 'pending',
+    },
+    source: {
+      type: String,
+      required: true,
+      enum: ['seed', 'public', 'admin'],
+      default: 'public',
     },
   },
   {

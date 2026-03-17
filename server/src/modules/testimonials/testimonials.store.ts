@@ -1,8 +1,5 @@
 import { isDatabaseReady } from '../../config/database.js'
-import type {
-  AdminTestimonial,
-  Testimonial,
-} from '../../types/content.js'
+import type { AdminTestimonial, Testimonial } from '../../types/content.js'
 import { logInfo, logWarn } from '../../utils/logger.js'
 import { testimonials as seedTestimonials } from './testimonials.data.js'
 import { TestimonialModel } from './testimonials.model.js'
@@ -25,6 +22,9 @@ async function readMongoTestimonials() {
 
   if (documents.length > 0) {
     const hasLegacyDocuments = documents.some((document) => !document.status)
+    const hasMissingMetadata = documents.some(
+      (document) => !document.source || !document.submittedAt || typeof document.email !== 'string',
+    )
 
     if (hasLegacyDocuments) {
       await TestimonialModel.updateMany(
@@ -32,6 +32,35 @@ async function readMongoTestimonials() {
         { $set: { status: 'approved' } },
       ).exec()
       logInfo('Backfilled legacy testimonials with approved moderation status.')
+
+      const refreshedDocuments = (await TestimonialModel.find()
+        .sort({ order: 1 })
+        .lean()
+        .exec()) as TestimonialRecord[]
+
+      return refreshedDocuments
+        .filter((document) => document.status === 'approved')
+        .map(stripTestimonialMetadata)
+    }
+
+    if (hasMissingMetadata) {
+      await TestimonialModel.updateMany(
+        {
+          $or: [
+            { source: { $exists: false } },
+            { submittedAt: { $exists: false } },
+            { email: { $exists: false } },
+          ],
+        },
+        {
+          $set: {
+            source: 'seed',
+            submittedAt: new Date().toISOString(),
+            email: '',
+          },
+        },
+      ).exec()
+      logInfo('Backfilled legacy testimonials with submission metadata defaults.')
 
       const refreshedDocuments = (await TestimonialModel.find()
         .sort({ order: 1 })
@@ -51,7 +80,10 @@ async function readMongoTestimonials() {
   await TestimonialModel.insertMany(
     seedTestimonials.map((testimonial, order) => ({
       order,
+      email: '',
+      submittedAt: new Date().toISOString(),
       status: 'approved',
+      source: 'seed',
       ...testimonial,
     })),
   )

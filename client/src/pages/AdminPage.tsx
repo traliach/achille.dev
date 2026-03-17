@@ -57,9 +57,12 @@ type TestimonialDraft = {
   order?: number
   quote: string
   author: string
+  email: string
   role: string
   company: string
+  submittedAt: string
   status: TestimonialModerationStatus
+  source: 'seed' | 'public' | 'admin'
 }
 
 const CONTACT_STATUSES: ContactSubmissionStatus[] = [
@@ -258,9 +261,12 @@ function toTestimonialDraft(testimonial: AdminTestimonial): TestimonialDraft {
     order: testimonial.order,
     quote: testimonial.quote,
     author: testimonial.author,
+    email: testimonial.email,
     role: testimonial.role,
     company: testimonial.company,
+    submittedAt: testimonial.submittedAt,
     status: testimonial.status,
+    source: testimonial.source,
   }
 }
 
@@ -525,6 +531,11 @@ export function AdminPage() {
   }
 
   async function handleSaveTestimonial(draft: TestimonialDraft) {
+    if (!draft.id) {
+      showNotice('Only existing testimonials can be updated here.', 'error')
+      return
+    }
+
     const key = `testimonial-save-${draft.id}`
     setBusyKey(key)
 
@@ -1463,7 +1474,15 @@ export function AdminPage() {
             {visibleTestimonials.map((draft) => (
               <article className="admin-card admin-card--nested" key={draft.id}>
                 <div className="admin-section-heading">
-                  <h3>{draft.author || 'Untitled testimonial'}</h3>
+                  <div>
+                    <h3>{draft.author || 'Untitled testimonial'}</h3>
+                    <p className="admin-meta">
+                      {draft.email || 'No email provided'} • {draft.source} •{' '}
+                      {draft.submittedAt
+                        ? new Date(draft.submittedAt).toLocaleString()
+                        : 'Unknown submission time'}
+                    </p>
+                  </div>
                   <span className="admin-tag">{draft.status}</span>
                 </div>
                 <label className="field">

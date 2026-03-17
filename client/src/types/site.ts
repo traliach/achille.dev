@@ -67,6 +67,7 @@ export interface Testimonial {
 }
 
 export type TestimonialModerationStatus = 'pending' | 'approved' | 'rejected'
+export type TestimonialSource = 'seed' | 'public' | 'admin'
 
 export interface ContactItem {
   label: string
@@ -87,6 +88,16 @@ export interface ContactSubmissionInput {
 }
 
 export interface ContactSubmissionResult {
+  id: string
+  message: string
+  receivedAt: string
+}
+
+export interface TestimonialSubmissionInput extends Testimonial {
+  email: string
+}
+
+export interface TestimonialSubmissionResult {
   id: string
   message: string
   receivedAt: string
@@ -126,7 +137,10 @@ export interface AdminSkillGroup extends SkillGroup {
 export interface AdminTestimonial extends Testimonial {
   id: string
   order: number
+  email: string
+  submittedAt: string
   status: TestimonialModerationStatus
+  source: TestimonialSource
 }
 
 export interface AdminContactSubmission extends ContactSubmissionInput {

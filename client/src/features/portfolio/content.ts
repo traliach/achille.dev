@@ -7,6 +7,7 @@ import type {
   ProjectSummary,
   SkillGroup,
   Testimonial,
+  TestimonialSubmissionInput,
 } from '../../types/site'
 
 export const fallbackProfile: ProfileContent = {
@@ -234,6 +235,16 @@ export const contactTopics: ContactTopic[] = [
   { value: 'platform-reliability', label: 'Containers, Kubernetes, or platform reliability' },
   { value: 'software-engineering', label: 'Software engineering collaboration' },
 ]
+
+export function createInitialTestimonialForm(): TestimonialSubmissionInput {
+  return {
+    author: '',
+    email: '',
+    role: '',
+    company: '',
+    quote: '',
+  }
+}
 
 export const nextBuildSteps = [
   'Expand routed pages into deeper project and experience detail screens.',
