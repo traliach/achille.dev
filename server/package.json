@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "dev:tsx": "tsx watch src/server.ts",
+    "admin:login": "node scripts/admin-login.mjs",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js"
   },
@@ -14,12 +15,14 @@
     "dotenv": "latest",
     "express": "latest",
     "helmet": "latest",
+    "jsonwebtoken": "latest",
     "mongoose": "latest",
     "zod": "latest"
   },
   "devDependencies": {
     "@types/cors": "latest",
     "@types/express": "latest",
+    "@types/jsonwebtoken": "latest",
     "@types/node": "^24.12.0",
     "nodemon": "latest",
     "tsx": "latest",

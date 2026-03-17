@@ -1,10 +1,7 @@
 import { Router } from 'express'
 import { z } from 'zod'
 import { logInfo } from '../../utils/logger.js'
-import {
-  createContactSubmission,
-  listContactSubmissions,
-} from './contact.store.js'
+import { createContactSubmission } from './contact.store.js'
 
 const contactSchema = z.object({
   name: z.string().trim().min(2).max(100),
@@ -36,20 +33,6 @@ contactRouter.post('/', async (request, response, next) => {
       id: submission.id,
       receivedAt: submission.receivedAt,
       message: 'Message received and saved. Thanks for reaching out.',
-    })
-  } catch (error) {
-    next(error)
-  }
-})
-
-contactRouter.get('/', async (_request, response, next) => {
-  try {
-    const submissions = await listContactSubmissions()
-
-    response.json({
-      count: submissions.length,
-      latest: submissions[0] ?? null,
-      items: submissions,
     })
   } catch (error) {
     next(error)

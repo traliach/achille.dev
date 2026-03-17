@@ -7,6 +7,7 @@ import { isDatabaseReady } from '../../config/database.js'
 import type {
   ContactSubmission,
   ContactSubmissionInput,
+  ContactSubmissionStatus,
 } from '../../types/content.js'
 import { logInfo, logWarn } from '../../utils/logger.js'
 import { ContactSubmissionModel } from './contact.model.js'
@@ -23,7 +24,7 @@ const storedSubmissionSchema = z.object({
   inquiryType: z.string(),
   message: z.string(),
   receivedAt: z.string(),
-  status: z.literal('new'),
+  status: z.enum(['new', 'reviewed', 'replied', 'archived']),
 })
 
 const storedSubmissionListSchema = z.array(storedSubmissionSchema)
@@ -106,6 +107,61 @@ export async function listContactSubmissions() {
 
   logWarn('MongoDB not ready. Listing contact submissions from file fallback.')
   return readSubmissions()
+}
+
+export async function updateContactSubmissionStatus(
+  id: string,
+  status: ContactSubmissionStatus,
+) {
+  if (isDatabaseReady()) {
+    logInfo(`Updating contact submission ${id} status to ${status} in MongoDB.`)
+
+    const document = await ContactSubmissionModel.findOneAndUpdate(
+      { id },
+      { status },
+      { new: true },
+    )
+      .lean()
+      .exec()
+
+    if (!document) {
+      return null
+    }
+
+    const { _id, ...submission } = document as ContactSubmission & {
+      _id: unknown
+    }
+
+    return submission
+  }
+
+  logWarn(`MongoDB not ready. Updating contact submission ${id} status in file fallback.`)
+
+  return queueWrite(async () => {
+    const submissions = await readSubmissions()
+    const index = submissions.findIndex((submission) => submission.id === id)
+
+    if (index === -1) {
+      return null
+    }
+
+    const currentSubmission = submissions[index]
+
+    if (!currentSubmission) {
+      return null
+    }
+
+    const updatedSubmission: ContactSubmission = {
+      ...currentSubmission,
+      status,
+    }
+
+    submissions[index] = updatedSubmission
+
+    await writeSubmissions(submissions)
+
+    return updatedSubmission
+  })
 }
 
 export async function createContactSubmission(input: ContactSubmissionInput) {

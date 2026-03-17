@@ -57,8 +57,14 @@ export interface ContactSubmissionInput {
   message: string
 }
 
+export type ContactSubmissionStatus =
+  | 'new'
+  | 'reviewed'
+  | 'replied'
+  | 'archived'
+
 export interface ContactSubmission extends ContactSubmissionInput {
   id: string
   receivedAt: string
-  status: 'new'
+  status: ContactSubmissionStatus
 }

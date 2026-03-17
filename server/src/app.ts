@@ -4,6 +4,10 @@ import helmet from 'helmet'
 import { env } from './config/env.js'
 import { errorHandlerMiddleware } from './middleware/error-handler.js'
 import { notFoundMiddleware } from './middleware/not-found.js'
+import { requireAdminAuth } from './middleware/require-admin-auth.js'
+import { requireDatabaseReady } from './middleware/require-database-ready.js'
+import { adminRouter } from './modules/admin/admin.routes.js'
+import { authRouter } from './modules/auth/auth.routes.js'
 import { requestLoggerMiddleware } from './middleware/request-logger.js'
 import { contactRouter } from './modules/contact/contact.routes.js'
 import { healthRouter } from './modules/health/health.routes.js'
@@ -30,12 +34,14 @@ app.get('/api', (_request, response) => {
   })
 })
 
+app.use('/api/auth', authRouter)
 app.use('/api/health', healthRouter)
 app.use('/api/profile', profileRouter)
 app.use('/api/projects', projectsRouter)
 app.use('/api/skills', skillsRouter)
 app.use('/api/testimonials', testimonialsRouter)
 app.use('/api/contact', contactRouter)
+app.use('/api/admin', requireAdminAuth, requireDatabaseReady, adminRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

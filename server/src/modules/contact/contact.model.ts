@@ -1,5 +1,16 @@
 import mongoose, { Schema, model } from 'mongoose'
-import type { ContactSubmission } from '../../types/content.js'
+import type { Model } from 'mongoose'
+import type {
+  ContactSubmission,
+  ContactSubmissionStatus,
+} from '../../types/content.js'
+
+const contactStatuses: ContactSubmissionStatus[] = [
+  'new',
+  'reviewed',
+  'replied',
+  'archived',
+]
 
 // Keep the Mongo document shape aligned with the API response shape.
 const contactSubmissionSchema = new Schema<ContactSubmission>(
@@ -10,7 +21,7 @@ const contactSubmissionSchema = new Schema<ContactSubmission>(
     inquiryType: { type: String, required: true, trim: true },
     message: { type: String, required: true, trim: true },
     receivedAt: { type: String, required: true },
-    status: { type: String, required: true, enum: ['new'], default: 'new' },
+    status: { type: String, required: true, enum: contactStatuses, default: 'new' },
   },
   {
     collection: 'contactSubmissions',
@@ -22,6 +33,10 @@ const contactSubmissionSchema = new Schema<ContactSubmission>(
 // Keep admin-style "latest first" reads fast as submissions grow.
 contactSubmissionSchema.index({ receivedAt: -1 })
 
+const existingContactSubmissionModel = mongoose.models.ContactSubmission as
+  | Model<ContactSubmission>
+  | undefined
+
 export const ContactSubmissionModel =
-  mongoose.models.ContactSubmission ??
+  existingContactSubmissionModel ??
   model<ContactSubmission>('ContactSubmission', contactSubmissionSchema)

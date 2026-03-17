@@ -1,13 +1,22 @@
 import { app } from './app.js'
 import { connectDatabase } from './config/database.js'
 import { env } from './config/env.js'
+import { seedContentCollections } from './modules/content/content.seed.js'
 import { logError, logStartup, logSuccess } from './utils/logger.js'
 
-void connectDatabase().catch((error) => {
-  logError(
-    error instanceof Error ? error.message : 'Unknown database startup error',
-  )
-})
+void connectDatabase()
+  .then((connected) => {
+    if (connected) {
+      return seedContentCollections()
+    }
+
+    return undefined
+  })
+  .catch((error) => {
+    logError(
+      error instanceof Error ? error.message : 'Unknown database startup error',
+    )
+  })
 
 const server = app.listen(env.PORT, () => {
   logStartup(env.PORT, env.CLIENT_ORIGIN)

@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose'
+import type { Model } from 'mongoose'
 import type { ProjectSummary } from '../../types/content.js'
 
 type ProjectDocument = ProjectSummary & {
@@ -35,5 +36,5 @@ const projectSchema = new Schema<ProjectDocument>(
 )
 
 export const ProjectModel =
-  mongoose.models.Project ??
+  (mongoose.models.Project as Model<ProjectDocument> | undefined) ??
   model<ProjectDocument>('Project', projectSchema)

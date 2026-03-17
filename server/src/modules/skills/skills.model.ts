@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose'
+import type { Model } from 'mongoose'
 import type { SkillGroup } from '../../types/content.js'
 
 type SkillGroupDocument = SkillGroup & {
@@ -21,5 +22,5 @@ const skillGroupSchema = new Schema<SkillGroupDocument>(
 )
 
 export const SkillGroupModel =
-  mongoose.models.SkillGroup ??
+  (mongoose.models.SkillGroup as Model<SkillGroupDocument> | undefined) ??
   model<SkillGroupDocument>('SkillGroup', skillGroupSchema)

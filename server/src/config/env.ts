@@ -28,6 +28,22 @@ const envSchema = z.object({
     .default('development'),
   PORT: z.coerce.number().int().positive().default(4000),
   CLIENT_ORIGIN: z.string().default('http://localhost:5173'),
+  ADMIN_EMAIL: z.preprocess(
+    (value) =>
+      typeof value === 'string' && value.trim().length === 0 ? undefined : value,
+    z.string().email().optional(),
+  ),
+  ADMIN_PASSWORD: z.preprocess(
+    (value) =>
+      typeof value === 'string' && value.trim().length === 0 ? undefined : value,
+    z.string().min(8).optional(),
+  ),
+  JWT_SECRET: z.preprocess(
+    (value) =>
+      typeof value === 'string' && value.trim().length === 0 ? undefined : value,
+    z.string().min(16).optional(),
+  ),
+  JWT_EXPIRES_IN: z.string().default('12h'),
   MONGODB_URI: z.preprocess(
     (value) =>
       typeof value === 'string' && value.trim().length === 0 ? undefined : value,

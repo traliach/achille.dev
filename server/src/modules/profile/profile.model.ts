@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose'
+import type { Model } from 'mongoose'
 import type { ProfileContent } from '../../types/content.js'
 
 type ProfileDocument = ProfileContent & {
@@ -45,5 +46,5 @@ const profileSchema = new Schema<ProfileDocument>(
   },
 )
 export const ProfileModel =
-  mongoose.models.Profile ??
+  (mongoose.models.Profile as Model<ProfileDocument> | undefined) ??
   model<ProfileDocument>('Profile', profileSchema)

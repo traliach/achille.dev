@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose'
+import type { Model } from 'mongoose'
 import type { Testimonial } from '../../types/content.js'
 
 type TestimonialDocument = Testimonial & {
@@ -21,5 +22,5 @@ const testimonialSchema = new Schema<TestimonialDocument>(
 )
 
 export const TestimonialModel =
-  mongoose.models.Testimonial ??
+  (mongoose.models.Testimonial as Model<TestimonialDocument> | undefined) ??
   model<TestimonialDocument>('Testimonial', testimonialSchema)
