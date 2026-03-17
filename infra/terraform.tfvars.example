@@ -1,0 +1,4 @@
+atlas_org_id         = "YOUR_ATLAS_ORG_ID"
+atlas_project_name   = "resume-platform-dev"
+atlas_cluster_name   = "resume-platform-m0"
+atlas_region         = "US_EAST_1"
