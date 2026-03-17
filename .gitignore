@@ -12,7 +12,10 @@ server/node_modules/
 *.tfstate.*
 *.tfvars
 *.tfvars.json
+infra/.tfvars
 crash.log
-*.sh
+infra/.tfvars
+infra/.terraform.lock.hcl
+infra/connect-atlas.sh
 
 
