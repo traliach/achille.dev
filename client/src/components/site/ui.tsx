@@ -71,7 +71,7 @@ export function PageIntro({
   return (
     <div
       className={cx(
-        'flex flex-col gap-4',
+        'flex flex-col gap-5',
         align === 'center' && 'items-center text-center',
       )}
     >

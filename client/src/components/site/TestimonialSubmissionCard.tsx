@@ -35,19 +35,19 @@ export function TestimonialSubmissionCard({
           </div>
         </div>
 
-        <div className="rounded-[24px] border border-slate-200/80 bg-white/90 p-5">
+        <div className="rounded-2xl border border-line/60 bg-white p-5">
           <p className={finePrintClass}>Review flow</p>
           <ul className="mt-3 grid gap-3">
             <li className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
               <span className={bodyClass}>Submit a short quote and role details.</span>
             </li>
             <li className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
               <span className={bodyClass}>The testimonial enters the admin moderation queue.</span>
             </li>
             <li className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
               <span className={bodyClass}>Approved quotes appear on the public site.</span>
             </li>
           </ul>

@@ -13,15 +13,15 @@ const labels: Record<ApiState, string> = {
 }
 
 const toneClasses: Record<ApiState, string> = {
-  loading: 'border-amber-200 bg-amber-50/90 text-amber-800',
-  online: 'border-emerald-200 bg-emerald-50/90 text-emerald-800',
-  offline: 'border-slate-200 bg-white/90 text-slate-600',
+  loading: 'border-amber-200/80 bg-amber-50/80 text-amber-800',
+  online: 'border-emerald-200/80 bg-emerald-50/80 text-emerald-800',
+  offline: 'border-line bg-surface-tinted text-muted',
 }
 
 const dotClasses: Record<ApiState, string> = {
-  loading: 'bg-amber-500',
+  loading: 'bg-amber-500 animate-pulse',
   online: 'bg-emerald-500',
-  offline: 'bg-slate-400',
+  offline: 'bg-stone-400',
 }
 
 export function ApiStatusBadge({ health, state }: ApiStatusBadgeProps) {
@@ -37,14 +37,14 @@ export function ApiStatusBadge({ health, state }: ApiStatusBadgeProps) {
 
   return (
     <div
-      className={[
-        'inline-flex flex-wrap items-center gap-2 rounded-full border px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em]',
+      className={cx(
+        'inline-flex flex-wrap items-center gap-2 rounded-full border px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.16em] backdrop-blur-sm',
         toneClasses[state],
-      ].join(' ')}
+      )}
     >
-      <span className={cx('h-2 w-2 rounded-full', dotClasses[state])} />
+      <span className={cx('h-1.5 w-1.5 rounded-full', dotClasses[state])} />
       <span>{labels[state]}</span>
-      <span className="normal-case text-[0.72rem] font-medium tracking-normal opacity-80">
+      <span className="normal-case text-[0.7rem] font-medium tracking-normal opacity-70">
         {detail}
       </span>
     </div>

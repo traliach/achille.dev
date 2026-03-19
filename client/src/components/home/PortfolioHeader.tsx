@@ -29,15 +29,15 @@ export function PortfolioHeader({
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-canvas/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-line/40 bg-canvas/80 backdrop-blur-xl">
       <div
         className={cx(
           siteContainerClass,
           'flex items-center justify-between gap-6 py-4 sm:py-5',
         )}
       >
-        <a className="min-w-0 flex-1 lg:flex-none" href="/">
-          <span className="block truncate text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-slate-500">
+        <a className="group min-w-0 flex-1 lg:flex-none" href="/">
+          <span className="block truncate text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-muted transition-colors group-hover:text-accent-deep">
             {name}
           </span>
           <span className="mt-1 block truncate text-sm font-medium text-ink sm:text-base">
@@ -52,12 +52,10 @@ export function PortfolioHeader({
           {navItems.map((item) => (
             <a
               aria-current={currentPath === item.href ? 'page' : undefined}
-              className={[
+              className={cx(
                 navLinkClass,
-                currentPath === item.href ? navLinkActiveClass : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
+                currentPath === item.href && navLinkActiveClass,
+              )}
               href={item.href}
               key={item.href}
             >
@@ -69,40 +67,44 @@ export function PortfolioHeader({
         <button
           aria-expanded={menuOpen}
           aria-label="Toggle navigation menu"
-          className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition duration-200 hover:border-accent/30 hover:text-ink lg:hidden"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white px-4 py-2.5 text-sm font-semibold text-muted transition duration-200 hover:border-accent/25 hover:text-ink lg:hidden"
           onClick={() => setMenuOpen((current) => !current)}
           type="button"
         >
+          <span className="relative flex h-4 w-4 flex-col items-center justify-center gap-1">
+            <span className={cx('h-0.5 w-3.5 rounded-full bg-current transition-all duration-300', menuOpen && 'translate-y-[3px] rotate-45')} />
+            <span className={cx('h-0.5 w-3.5 rounded-full bg-current transition-all duration-300', menuOpen && '-translate-y-[3px] -rotate-45')} />
+          </span>
           Menu
         </button>
       </div>
 
-      {menuOpen ? (
-        <div className="border-t border-slate-200/80 bg-white/95 backdrop-blur lg:hidden">
-          <div className={cx(siteContainerClass, 'py-4')}>
-            <nav aria-label="Mobile portfolio sections" className="grid gap-2">
-              {navItems.map((item) => (
-                <a
-                  aria-current={currentPath === item.href ? 'page' : undefined}
-                  className={[
-                    navLinkClass,
-                    'justify-start rounded-2xl border border-transparent px-4 py-3',
-                    currentPath === item.href
-                      ? 'border-slate-200 bg-slate-50 text-ink'
-                      : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  href={item.href}
-                  key={item.href}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-          </div>
+      <div
+        className={cx(
+          'overflow-hidden border-t border-line/40 bg-white/95 backdrop-blur-xl transition-all duration-300 lg:hidden',
+          menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 border-t-0 opacity-0',
+        )}
+      >
+        <div className={cx(siteContainerClass, 'py-4')}>
+          <nav aria-label="Mobile portfolio sections" className="grid gap-1">
+            {navItems.map((item) => (
+              <a
+                aria-current={currentPath === item.href ? 'page' : undefined}
+                className={cx(
+                  'rounded-2xl px-4 py-3 text-sm font-medium text-muted transition duration-200',
+                  currentPath === item.href
+                    ? 'bg-surface-tinted text-ink'
+                    : 'hover:bg-surface-tinted hover:text-ink',
+                )}
+                href={item.href}
+                key={item.href}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
         </div>
-      ) : null}
+      </div>
     </header>
   )
 }

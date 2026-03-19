@@ -26,7 +26,8 @@ export function ProjectCaseStudyCard({
       padding={isFeaturedLayout ? 'roomy' : 'default'}
       tone={isFeaturedLayout ? 'accent' : 'default'}
       className={cx(
-        'group h-full transition duration-300 hover:-translate-y-1 hover:border-accent/20 hover:shadow-[0_42px_100px_-58px_rgba(15,23,42,0.38)]',
+        'group h-full transition duration-300 hover:-translate-y-0.5 hover:shadow-card-hover',
+        !isFeaturedLayout && 'hover:border-accent/15',
       )}
     >
       {isFeaturedLayout ? (
@@ -39,33 +40,33 @@ export function ProjectCaseStudyCard({
                   <h2 className={headingClasses.section}>{project.title}</h2>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <p className={metaClass}>{project.role}</p>
-                    <span className="h-1 w-1 rounded-full bg-slate-300" />
+                    <span className="h-1 w-1 rounded-full bg-stone-300" />
                     <p className={metaClass}>{project.timeframe}</p>
                   </div>
                 </div>
               </div>
-              <Tag className="border-accent/[0.15] bg-white/70 text-accent-deep">
+              <Tag className="border-accent/15 bg-accent-soft/60 text-accent-deep">
                 {project.timeframe}
               </Tag>
             </div>
 
-            <p className="max-w-3xl text-[1.08rem] leading-8 text-slate-700">
+            <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
               {project.summary}
             </p>
 
             <div className="grid gap-4 lg:grid-cols-2">
-              <div className="rounded-[26px] border border-slate-200/80 bg-white/[0.72] p-5 sm:p-6">
+              <div className="rounded-2xl border border-line/60 bg-white/80 p-5 sm:p-6">
                 <p className={finePrintClass}>Delivery need</p>
-                <p className={cx(bodyClass, 'mt-3 text-slate-700')}>{project.challenge}</p>
+                <p className={cx(bodyClass, 'mt-3')}>{project.challenge}</p>
               </div>
-              <div className="rounded-[26px] border border-slate-200/80 bg-white/[0.72] p-5 sm:p-6">
+              <div className="rounded-2xl border border-line/60 bg-white/80 p-5 sm:p-6">
                 <p className={finePrintClass}>Execution</p>
-                <p className={cx(bodyClass, 'mt-3 text-slate-700')}>{project.solution}</p>
+                <p className={cx(bodyClass, 'mt-3')}>{project.solution}</p>
               </div>
             </div>
           </div>
 
-          <aside className="flex flex-col gap-5 rounded-[28px] border border-slate-200/80 bg-white/[0.74] p-5 sm:p-6">
+          <aside className="flex flex-col gap-5 rounded-2xl border border-line/60 bg-white/80 p-5 sm:p-6">
             <div className="space-y-3">
               <p className={finePrintClass}>Delivery profile</p>
               <div className="grid gap-3">
@@ -85,7 +86,7 @@ export function ProjectCaseStudyCard({
               <ul className="grid gap-3">
                 {visibleOutcomes.map((item) => (
                   <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                     <span className={bodyClass}>{item}</span>
                   </li>
                 ))}
@@ -94,7 +95,7 @@ export function ProjectCaseStudyCard({
 
             <div className="space-y-3">
               <p className={finePrintClass}>Stack</p>
-              <div className="flex flex-wrap gap-2.5">
+              <div className="flex flex-wrap gap-2">
                 {project.stack.map((item) => (
                   <Tag key={item}>{item}</Tag>
                 ))}
@@ -112,41 +113,41 @@ export function ProjectCaseStudyCard({
                   <h2 className={headingClasses.card}>{project.title}</h2>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <p className={metaClass}>{project.role}</p>
-                    <span className="h-1 w-1 rounded-full bg-slate-300" />
+                    <span className="h-1 w-1 rounded-full bg-stone-300" />
                     <p className={metaClass}>{project.timeframe}</p>
                   </div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-2">
                 {project.metrics.slice(0, 2).map((metric) => (
-                  <Tag className="bg-slate-50 text-slate-600" key={metric.label}>
+                  <Tag className="bg-surface-tinted text-muted" key={metric.label}>
                     {metric.value}
                   </Tag>
                 ))}
               </div>
             </div>
 
-            <p className="text-base leading-8 text-slate-700">{project.summary}</p>
+            <p className="text-base leading-8 text-muted">{project.summary}</p>
           </div>
 
           <div className="grid gap-4">
-            <div className="rounded-[24px] border border-slate-200/80 bg-slate-50/[0.78] p-5">
+            <div className="rounded-2xl border border-line/60 bg-surface-tinted p-5">
               <p className={finePrintClass}>Delivery need</p>
               <p className={cx(bodyClass, 'mt-3')}>{project.challenge}</p>
             </div>
 
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(220px,0.88fr)]">
-              <div className="rounded-[24px] border border-slate-200/80 bg-slate-50/[0.78] p-5">
+              <div className="rounded-2xl border border-line/60 bg-surface-tinted p-5">
                 <p className={finePrintClass}>Execution</p>
                 <p className={cx(bodyClass, 'mt-3')}>{project.solution}</p>
               </div>
 
-              <div className="rounded-[24px] border border-slate-200/80 bg-white/[0.88] p-5">
+              <div className="rounded-2xl border border-line/60 bg-white p-5">
                 <p className={finePrintClass}>Operational result</p>
                 <ul className="mt-3 grid gap-3">
                   {visibleOutcomes.map((item) => (
                     <li className="flex gap-3" key={item}>
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
+                      <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                       <span className={bodyClass}>{item}</span>
                     </li>
                   ))}
@@ -155,7 +156,7 @@ export function ProjectCaseStudyCard({
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5 border-t border-slate-200/80 pt-5">
+          <div className="flex flex-wrap items-center gap-2 border-t border-line/60 pt-5">
             {project.stack.map((item) => (
               <Tag key={item}>{item}</Tag>
             ))}
