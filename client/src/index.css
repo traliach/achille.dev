@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,14 +6,16 @@
 
 @layer base {
   :root {
-    --surface-strong: rgba(255, 255, 255, 0.94);
-    --border: #d5dde7;
-    --accent: #1f4f84;
-    --accent-soft: #e7eef6;
-    --accent-deep: #16385d;
-    --danger: #b23f3f;
-    --shadow-soft: 0 18px 40px -30px rgba(15, 23, 42, 0.2);
-    --text-muted: #526070;
+    --accent: #4338ca;
+    --accent-soft: #eef2ff;
+    --accent-deep: #3730a3;
+    --warm: #d97706;
+    --warm-soft: #fef3c7;
+    --surface-strong: rgba(255, 255, 255, 0.96);
+    --border: #e4e2dd;
+    --danger: #dc2626;
+    --shadow-soft: 0 1px 3px rgba(0,0,0,0.04), 0 6px 16px -4px rgba(0,0,0,0.06);
+    --text-muted: #64625d;
   }
 
   html {
@@ -23,29 +25,24 @@
   body {
     @apply min-h-screen bg-canvas text-base leading-7 text-muted;
     background-image:
-      radial-gradient(circle at top, rgba(31, 79, 132, 0.08), transparent 34%),
-      linear-gradient(180deg, #f8fafc 0%, #eef3f7 100%);
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(67,56,202,0.04), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 0%, rgba(217,119,6,0.03), transparent);
   }
 
   ::selection {
-    @apply bg-accent/20 text-ink;
+    @apply bg-accent/15 text-ink;
   }
 
   a {
     @apply transition-colors duration-200;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
+  h1, h2, h3, h4 {
     @apply text-ink;
   }
 
-  input,
-  select,
-  textarea {
-    @apply w-full rounded-2xl border border-line bg-white/95 px-4 py-3 text-sm text-ink shadow-soft outline-none transition duration-200 placeholder:text-slate-400 focus:border-accent focus:ring-4 focus:ring-accent/10;
+  input, select, textarea {
+    @apply w-full rounded-2xl border border-line bg-white px-4 py-3.5 text-sm text-ink shadow-sm outline-none transition duration-200 placeholder:text-stone-400 focus:border-accent focus:ring-4 focus:ring-accent/10;
   }
 
   textarea {
@@ -59,38 +56,32 @@
   }
 
   .surface {
-    @apply rounded-[28px] border border-line/80 bg-white/95 p-6 shadow-panel shadow-slate-900/10 backdrop-blur sm:p-8;
-  }
-
-  .surface--accent {
-    background:
-      linear-gradient(180deg, rgba(31, 79, 132, 0.08), rgba(255, 255, 255, 0.96)),
-      rgba(255, 255, 255, 0.94);
+    @apply rounded-3xl border border-line/80 bg-white p-6 shadow-card backdrop-blur sm:p-8;
   }
 
   .eyebrow::before {
     content: '';
-    @apply inline-flex h-px w-7 bg-accent/40;
+    @apply inline-flex h-px w-7 bg-accent/30;
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-accent-deep;
+    @apply inline-flex items-center gap-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-accent-deep;
   }
 
   .section-intro {
-    @apply max-w-3xl text-base leading-8 text-slate-600;
+    @apply max-w-3xl text-base leading-8 text-muted;
   }
 
   .button {
-    @apply inline-flex items-center justify-center rounded-full border px-5 py-3 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-4 focus:ring-accent/10;
+    @apply inline-flex items-center justify-center rounded-full border px-6 py-3.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-4 focus:ring-accent/10;
   }
 
   .button--primary {
-    @apply border-transparent bg-ink text-white shadow-soft shadow-slate-900/25 hover:-translate-y-0.5 hover:bg-accent-deep;
+    @apply border-transparent bg-ink text-white shadow-soft hover:-translate-y-0.5 hover:bg-accent-deep hover:shadow-card-hover;
   }
 
   .button--secondary {
-    @apply border-line bg-white text-ink hover:-translate-y-0.5 hover:border-accent/40 hover:text-accent-deep;
+    @apply border-line bg-white text-ink hover:-translate-y-0.5 hover:border-accent/30 hover:text-accent-deep hover:shadow-soft;
   }
 
   .contact-form {
@@ -114,7 +105,7 @@
   }
 
   .form-status {
-    @apply text-sm font-medium text-slate-500;
+    @apply text-sm font-medium text-muted;
   }
 
   .form-status--success {
@@ -122,10 +113,31 @@
   }
 
   .form-status--error {
-    @apply text-rose-700;
+    @apply text-red-700;
   }
 
   .footer {
-    @apply border-t border-slate-200/80 bg-white/60;
+    @apply border-t border-line/80 bg-white/60 backdrop-blur-sm;
   }
+
+  /* Scroll reveal utility */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered entrance delays */
+  .stagger-1 { transition-delay: 0.05s; }
+  .stagger-2 { transition-delay: 0.1s; }
+  .stagger-3 { transition-delay: 0.15s; }
+  .stagger-4 { transition-delay: 0.2s; }
+  .stagger-5 { transition-delay: 0.25s; }
+  .stagger-6 { transition-delay: 0.3s; }
 }
