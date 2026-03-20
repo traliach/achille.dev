@@ -15,7 +15,7 @@ if (!uri) {
   process.exit(1)
 }
 
-const COLLECTIONS = ['profiles', 'projects', 'skillgroups']
+const COLLECTIONS = ['profile', 'projects', 'skills']
 
 console.log('Connecting to MongoDB...')
 await mongoose.connect(uri)
