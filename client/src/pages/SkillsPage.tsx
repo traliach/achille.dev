@@ -41,13 +41,7 @@ export function SkillsPage({ skills }: SkillsPageProps) {
           title="Technical depth across cloud, automation, platforms, and full-stack development."
         />
 
-        <SurfaceCard className="flex flex-col gap-4" padding="compact" tone="subdued">
-          <p className={finePrintClass}>At a glance</p>
-          <p className={bodyClass}>
-            Each group maps to a distinct area of engineering responsibility, not
-            just a list of tools.
-          </p>
-        </SurfaceCard>
+
       </div>
 
       <div className="reveal stagger-2 mt-10 grid gap-6 xl:grid-cols-12">
