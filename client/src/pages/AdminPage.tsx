@@ -72,10 +72,6 @@ const CONTACT_STATUSES: ContactSubmissionStatus[] = [
   'archived',
 ]
 
-const LOCAL_ADMIN_COMMANDS = {
-  printMfaCode: 'npm --workspace server run admin:mfa:code',
-  resetMfa: 'npm --workspace server run admin:mfa:setup',
-}
 
 function parseLines(value: string) {
   return value
@@ -957,8 +953,6 @@ export function AdminPage() {
   }
 
   if (authState !== 'signed_in') {
-    const showMfaHelp = authError.toLowerCase().includes('mfa')
-
     return (
       <main className="admin-shell admin-auth-shell">
         <div className="admin-login-grid">
@@ -1038,65 +1032,6 @@ export function AdminPage() {
               </div>
             </form>
           </section>
-
-          <aside className="surface admin-card admin-login-card admin-login-card--support">
-            <div className="admin-login-copy">
-              <span className="eyebrow">Access help</span>
-              <h2 className="admin-subtitle">Works with Google Authenticator and any standard TOTP app.</h2>
-              <p className="admin-meta">
-                This project uses TOTP when <code>ADMIN_MFA_SECRET</code> is set in
-                <code> server/.env</code>. You can use Google Authenticator,
-                Authy, 1Password, or another app that supports standard 6-digit
-                TOTP codes.
-              </p>
-            </div>
-
-            <div className="admin-note-list">
-              <article className="admin-note-item">
-                <h3 className="admin-subtitle">Quick path for local login</h3>
-                <p className="admin-meta">
-                  1. Use your email and password.
-                  <br />
-                  2. Enter a 6-digit code from Google Authenticator.
-                  <br />
-                  3. If you do not have the app available, use one recovery code instead.
-                </p>
-              </article>
-
-              <article className="admin-note-item">
-                <h3 className="admin-subtitle">Print the current local code</h3>
-                <p className="admin-meta">
-                  Use this only for local testing. It prints the current 6-digit TOTP
-                  code from the server secret configured on this machine.
-                </p>
-                <code className="admin-command">{LOCAL_ADMIN_COMMANDS.printMfaCode}</code>
-              </article>
-
-              <article className="admin-note-item">
-                <h3 className="admin-subtitle">Setup or rotate MFA</h3>
-                <p className="admin-meta">
-                  Generate a new TOTP secret and a fresh set of recovery codes, then
-                  register the secret in Google Authenticator before restarting the server.
-                </p>
-                <code className="admin-command">{LOCAL_ADMIN_COMMANDS.resetMfa}</code>
-              </article>
-
-              <article className="admin-note-item admin-note-item--soft">
-                <h3 className="admin-subtitle">Production note</h3>
-                <p className="admin-meta">
-                  Do not disable MFA in production. Keep the authenticator app enrolled
-                  and store the recovery codes outside the repo.
-                </p>
-              </article>
-
-              {showMfaHelp ? (
-                <p className="admin-banner">
-                  The current server is rejecting the MFA step. Print a fresh code and
-                  try again immediately, because TOTP codes expire every 30 seconds.
-                </p>
-              ) : null}
-            </div>
-          </aside>
         </div>
       </main>
     )
