@@ -12,7 +12,7 @@ import type {
 
 export const fallbackProfile: ProfileContent = {
   name: 'Ali Achille Traore',
-  title: 'Software / Platform Engineer · AWS DevOps Pro',
+  title: 'DevOps Engineer & Full-Stack Software Engineer',
   location: 'Remote / Hybrid / On-site (US-wide)',
   availability:
     'EAD — authorized to work in the US. Open to DevOps, platform engineering, and full-stack software engineering roles.',
@@ -288,8 +288,3 @@ export function createInitialTestimonialForm(): TestimonialSubmissionInput {
   }
 }
 
-export const nextBuildSteps = [
-  'Cloud-native architecture and container orchestration at scale',
-  'Platform engineering with deeper Kubernetes and observability focus',
-  'Full-stack product delivery from API design through deployment',
-]

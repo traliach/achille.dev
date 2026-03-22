@@ -2,7 +2,7 @@ import type { ProfileContent } from '../../types/content.js'
 
 export const profile: ProfileContent = {
   name: 'Ali Achille Traore',
-  title: 'Software / Platform Engineer · AWS DevOps Pro',
+  title: 'DevOps Engineer & Full-Stack Software Engineer',
   location: 'Remote / Hybrid / On-site (US-wide)',
   availability:
     'Open to DevOps, platform engineering, and full-stack software engineering roles.',
