@@ -17,7 +17,7 @@ import {
   headingClasses,
   metaClass,
 } from '../components/site/styles'
-import { highlightMetrics, nextBuildSteps } from '../features/portfolio/content'
+import { highlightMetrics } from '../features/portfolio/content'
 import type {
   ApiHealth,
   ApiState,
@@ -77,9 +77,10 @@ export function HomePage({
               </div>
 
               <div className="space-y-7">
-                <h1 className="max-w-[12ch] font-display text-[clamp(2.2rem,4vw,3.8rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-ink">
-                  DevOps engineer for teams that need cleaner delivery, stronger
-                  automation, and steadier production support.
+                <h1 className="max-w-[14ch] font-display text-[clamp(2.2rem,4vw,3.8rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-ink">
+                  DevOps Engineer & Full-Stack Software Engineer — cloud
+                  infrastructure, CI/CD automation, and production-ready
+                  applications.
                 </h1>
 
                 <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
@@ -162,16 +163,32 @@ export function HomePage({
               </div>
             </SurfaceCard>
 
-            <SurfaceCard className="flex flex-col gap-4" padding="compact">
-              <p className={finePrintClass}>What I'm focused on next</p>
-              <ul className="grid gap-3">
-                {nextBuildSteps.map((item) => (
-                  <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                    <span className={bodyClass}>{item}</span>
-                  </li>
-                ))}
-              </ul>
+            <SurfaceCard className="flex flex-col gap-5" padding="compact">
+              <p className={finePrintClass}>What I do</p>
+              <div className="grid gap-4">
+                <div>
+                  <p className="text-sm font-semibold text-ink">Cloud & DevOps</p>
+                  <ul className="mt-2 grid gap-2">
+                    {['Infrastructure as code — Terraform, Ansible, CloudFormation', 'CI/CD pipelines — Jenkins, Azure DevOps, GitHub Actions', 'Cloud operations across AWS, Azure, and GCP'].map((item) => (
+                      <li className="flex gap-2" key={item}>
+                        <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
+                        <span className={cx(bodyClass, 'text-sm')}>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-ink">Full-Stack Development</p>
+                  <ul className="mt-2 grid gap-2">
+                    {['REST APIs with Node.js, Express, and TypeScript', 'React frontends with Tailwind CSS', 'MongoDB, PostgreSQL data modeling'].map((item) => (
+                      <li className="flex gap-2" key={item}>
+                        <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
+                        <span className={cx(bodyClass, 'text-sm')}>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
               <p className={metaClass}>{profile.availability}</p>
             </SurfaceCard>
           </div>
