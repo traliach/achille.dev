@@ -1,14 +1,16 @@
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { AdminPage } from './pages/AdminPage'
 import { PublicSite } from './pages/PublicSite'
+import { ResumePage } from './pages/ResumePage'
 
 function App() {
-  // Keep admin isolated from the public site until routing is reintroduced safely.
-  const isAdminPath = window.location.pathname.startsWith('/admin')
+  const path = window.location.pathname
+  const isAdminPath = path.startsWith('/admin')
+  const isResumePath = path === '/resume'
 
   return (
     <ErrorBoundary>
-      {isAdminPath ? <AdminPage /> : <PublicSite />}
+      {isAdminPath ? <AdminPage /> : isResumePath ? <ResumePage /> : <PublicSite />}
     </ErrorBoundary>
   )
 }

@@ -1,0 +1,247 @@
+/* ─── Resume page shell ─────────────────────────────────────────────── */
+.resume-shell {
+  background: #f3f3f0;
+  min-height: 100vh;
+  padding: 2rem 1rem 4rem;
+  font-family: 'Georgia', serif;
+}
+
+.resume-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 8.5in;
+  margin: 0 auto 1rem;
+  gap: 0.75rem;
+}
+
+/* ─── Paper pages ───────────────────────────────────────────────────── */
+.resume-page {
+  background: #fff;
+  max-width: 8.5in;
+  min-height: 11in;
+  margin: 0 auto 1.5rem;
+  padding: 0.75in;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  color: #111;
+  font-size: 10pt;
+  line-height: 1.5;
+}
+
+/* ─── Resume header ─────────────────────────────────────────────────── */
+.resume-name {
+  font-size: 22pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.15rem;
+  font-family: 'Georgia', serif;
+}
+
+.resume-title {
+  font-size: 11pt;
+  font-weight: 400;
+  color: #444;
+  margin: 0 0 0.6rem;
+  font-family: Arial, sans-serif;
+}
+
+.resume-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.2rem;
+  font-size: 8.5pt;
+  color: #333;
+  font-family: Arial, sans-serif;
+  margin-bottom: 0.25rem;
+}
+
+.resume-contacts a {
+  color: #333;
+  text-decoration: none;
+}
+
+/* ─── Section ───────────────────────────────────────────────────────── */
+.resume-section {
+  margin-top: 0.7rem;
+}
+
+.resume-section-title {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #555;
+  font-family: Arial, sans-serif;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.resume-summary {
+  font-size: 9.5pt;
+  color: #222;
+  line-height: 1.65;
+  font-family: Arial, sans-serif;
+}
+
+/* ─── Timeline ──────────────────────────────────────────────────────── */
+.resume-timeline {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.resume-timeline-item {}
+
+.resume-timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.resume-timeline-role {
+  font-weight: 700;
+  font-size: 9.5pt;
+  font-family: Arial, sans-serif;
+}
+
+.resume-timeline-period {
+  font-size: 8.5pt;
+  color: #555;
+  white-space: nowrap;
+  font-family: Arial, sans-serif;
+}
+
+.resume-timeline-detail {
+  font-size: 9pt;
+  color: #333;
+  margin-top: 0.15rem;
+  line-height: 1.55;
+  font-family: Arial, sans-serif;
+}
+
+/* ─── Certifications ────────────────────────────────────────────────── */
+.resume-certs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.5rem;
+  font-family: Arial, sans-serif;
+}
+
+.resume-cert {
+  font-size: 9pt;
+  color: #222;
+}
+
+/* ─── Projects ──────────────────────────────────────────────────────── */
+.resume-projects {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.resume-project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.resume-project-title {
+  font-weight: 700;
+  font-size: 9.5pt;
+  font-family: Arial, sans-serif;
+}
+
+.resume-project-meta {
+  font-size: 8.5pt;
+  color: #555;
+  white-space: nowrap;
+  font-family: Arial, sans-serif;
+}
+
+.resume-project-stack {
+  font-size: 8.5pt;
+  color: #555;
+  font-family: Arial, sans-serif;
+  margin-top: 0.1rem;
+}
+
+.resume-project-outcomes {
+  margin: 0.2rem 0 0 0.8rem;
+  padding: 0;
+  list-style: disc;
+}
+
+.resume-project-outcomes li {
+  font-size: 9pt;
+  color: #333;
+  line-height: 1.5;
+  font-family: Arial, sans-serif;
+}
+
+/* ─── Skills ────────────────────────────────────────────────────────── */
+.resume-skills {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.resume-skill-row {
+  display: flex;
+  gap: 0.5rem;
+  font-family: Arial, sans-serif;
+  font-size: 9pt;
+  line-height: 1.5;
+}
+
+.resume-skill-label {
+  font-weight: 700;
+  min-width: 1.6in;
+  flex-shrink: 0;
+  color: #222;
+}
+
+.resume-skill-items {
+  color: #333;
+}
+
+/* ─── Strengths ─────────────────────────────────────────────────────── */
+.resume-strengths {
+  margin: 0 0 0 0.8rem;
+  padding: 0;
+  list-style: disc;
+}
+
+.resume-strengths li {
+  font-size: 9pt;
+  color: #333;
+  font-family: Arial, sans-serif;
+  line-height: 1.55;
+}
+
+/* ─── Print ─────────────────────────────────────────────────────────── */
+@media print {
+  .resume-shell {
+    background: #fff;
+    padding: 0;
+  }
+
+  .resume-toolbar {
+    display: none;
+  }
+
+  .resume-page {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    min-height: auto;
+    max-width: 100%;
+  }
+
+  .resume-page-2 {
+    break-before: page;
+  }
+
+  @page {
+    size: letter;
+    margin: 0.7in 0.75in;
+  }
+}

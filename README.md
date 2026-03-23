@@ -1,24 +1,24 @@
-# Resume Platform
+# achille.dev
 
-Full-stack personal portfolio platform built with:
+Personal portfolio platform — public-facing site with an admin dashboard for managing all content.
 
-- `client/`: React + TypeScript + Vite
-- `server/`: Express + TypeScript + MongoDB Atlas
-- `infra/`: Terraform-first Atlas foundation
+**Live:** client on Vercel, API on Render, database on MongoDB Atlas.
 
-## Current Scope
+---
 
-The app currently includes:
+## Stack
 
-- public portfolio pages at `/`, `/about`, `/projects`, `/skills`, and `/contact`
-- public testimonial submission into a moderation queue
-- admin panel at `/admin`
-- JWT-based admin auth with optional MFA
-- Mongo-backed content storage for profile, projects, skills, testimonials, and contact submissions
+- `client/` — React 19 + TypeScript + Vite + Tailwind CSS
+- `server/` — Node.js + Express + TypeScript + MongoDB/Mongoose
+- `infra/` — Terraform for MongoDB Atlas (project + M0 cluster)
+- Auth — JWT + TOTP MFA (Google Authenticator)
+- CI/CD — GitHub Actions → auto-deploy to Render + Vercel
+
+---
 
 ## Local Development
 
-Install workspace dependencies once from the repo root:
+Install from the repo root once:
 
 ```bash
 npm install
@@ -31,174 +31,199 @@ cd server
 npm run dev
 ```
 
-Start the client:
+Start the client (in a separate terminal):
 
 ```bash
 cd client
 npm run dev
 ```
 
-## Environment Files
+Client runs on `http://localhost:5173`. The Vite proxy forwards `/api` requests to `http://localhost:4000`, so `VITE_API_BASE_URL` doesn't need to be set locally.
 
-Server variables live in [`server/.env.example`](server/.env.example):
+---
+
+## Environment Variables
+
+Copy the example file and fill in the values:
+
+```bash
+cp server/.env.example server/.env
+```
+
+Required server variables:
 
 ```env
 PORT=4000
 CLIENT_ORIGIN=http://localhost:5173
-ADMIN_EMAIL=admin@example.com
-ADMIN_PASSWORD=change-me-now-123
-JWT_SECRET=replace-with-a-long-random-secret
+MONGODB_URI=mongodb+srv://...
+ADMIN_EMAIL=you@example.com
+ADMIN_PASSWORD=strong-password
+JWT_SECRET=long-random-string
 JWT_EXPIRES_IN=12h
 ADMIN_MFA_SECRET=
 ADMIN_MFA_RECOVERY_CODE_HASHES=
-ADMIN_MFA_ISSUER=Resume Platform Admin
-MONGODB_URI=mongodb+srv://...
+ADMIN_MFA_ISSUER=achille.dev Admin
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your@gmail.com
+SMTP_PASS=your-app-password
 ```
 
-Client variables live in [`client/.env.example`](client/.env.example):
+For local development without a deployed API, leave `VITE_API_BASE_URL` unset in the client. Set it in Vercel for production:
 
 ```env
-VITE_API_BASE_URL=http://localhost:4000
+VITE_API_BASE_URL=https://your-api.onrender.com
 ```
 
-Leave `VITE_API_BASE_URL` unset locally if you want to use the Vite `/api` proxy. Set it in production when the client and server are deployed on different domains.
+---
 
-### MFA Setup
+## MFA Setup
 
-Generate the admin MFA secret and recovery codes from the server directory:
+Run this once before deploying to production:
 
 ```bash
-npm run admin:mfa:setup
+npm --workspace server run admin:mfa:setup
 ```
 
-That script prints:
+It prints the `ADMIN_MFA_SECRET`, `ADMIN_MFA_RECOVERY_CODE_HASHES`, and an `otpauth://` URL. Scan that URL in Google Authenticator (or Authy, 1Password, etc.). Save the recovery codes somewhere offline — not in the repo.
 
-- `ADMIN_MFA_SECRET`
-- `ADMIN_MFA_RECOVERY_CODE_HASHES`
-- the authenticator app `otpauth://` URL
-- the plain-text recovery codes you should store offline
-
-To print the current local 6-digit MFA code during testing:
+To get the current 6-digit code during local testing:
 
 ```bash
-npm run admin:mfa:code
+npm --workspace server run admin:mfa:code
 ```
+
+---
 
 ## Commands
 
 From the repo root:
 
 ```bash
-npm run dev:client
-npm run dev:server
-npm run lint:client
-npm run build:client
-npm run build:server
-npm run test:server
-npm run ci
+npm run dev:client        # start client dev server
+npm run dev:server        # start API dev server
+npm run build:client      # Vite production build
+npm run build:server      # TypeScript compile
+npm run lint:client       # ESLint
+npm run test:server       # build + smoke tests
+npm run ci                # full check (server + client)
 ```
+
+From the server directory:
+
+```bash
+npm run admin:login       # print a JWT for API testing
+npm run admin:mfa:setup   # generate MFA secret + recovery codes
+npm run admin:mfa:code    # print current TOTP code
+npm run content:reset     # reset DB to seed data
+```
+
+---
 
 ## Tests
 
-The first server integration test suite covers key public/admin flows:
+The server smoke test suite covers:
 
 - `GET /api/health`
-- admin login success/failure
-- authenticated admin session check
-- admin route auth/database guard behavior
-- public testimonial submission behavior when Mongo is unavailable
-
-Run it with:
+- admin login (success and failure cases)
+- session check after login
+- admin route guard behavior
+- public testimonial submission when MongoDB is unavailable
 
 ```bash
 cd server
 npm run test
 ```
 
-## CI Pipeline
+---
 
-GitHub Actions CI is defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+## CI/CD
 
-On every push to `main` and every pull request it runs:
+Pipeline is in `.github/workflows/ci.yml`.
 
-1. `npm ci`
-2. `npm run ci`
+Three jobs run in parallel on every push and pull request:
 
-That workspace command performs:
+- **server** — TypeScript build + smoke tests
+- **client** — ESLint + Vite build
+- **audit** — `npm audit` at high severity
 
-- server build
-- server tests
-- client lint
-- client build
+If all three pass and the push is to `main`, a fourth **deploy** job fires:
 
-## Deployment Setup
+1. Triggers a Render deploy hook
+2. Waits and polls `GET /api/health` until it returns 200
+3. Vercel deploys automatically from the same git push
 
-Detailed deployment and CI instructions are in [DEPLOYMENT_AND_CI_RUNBOOK.md](/C:/Users/trach/Documents/New%20project/SBA_307_Project/DEPLOYMENT_AND_CI_RUNBOOK.md).
+Required GitHub secrets:
 
-### Server
+| Secret | Where to get it |
+|--------|----------------|
+| `RENDER_DEPLOY_HOOK` | Render → service → Settings → Deploy Hook |
+| `RENDER_SERVICE_URL` | Your Render service URL, e.g. `https://resume-platform-api.onrender.com` |
 
-The API deploy scaffold is in [`render.yaml`](render.yaml).
+---
 
-Recommended setup:
+## Deploying
 
-- deploy the server to Render
-- point `CLIENT_ORIGIN` to the real client URL
-- set `MONGODB_URI`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `JWT_SECRET`, `ADMIN_MFA_SECRET`, and `ADMIN_MFA_RECOVERY_CODE_HASHES`
-- keep `CLIENT_ORIGIN` set to the exact deployed client origin so credentialed admin cookie requests are allowed
-- because production admin auth now uses secure httpOnly cookies, production must run over HTTPS
+### Render (API)
 
-### Client
+Create a Web Service, point it at this repo, and use:
 
-The Vercel client config is in [`client/vercel.json`](client/vercel.json).
+- Root Directory: `server`
+- Build Command: `npm ci && npm run build`
+- Start Command: `npm run start`
+- Health Check Path: `/api/health`
 
-Recommended setup:
+Set all server environment variables from the section above. Set `CLIENT_ORIGIN` to the exact Vercel URL after you have it — the admin cookie won't work otherwise.
 
-- deploy the `client` directory to Vercel
-- set `VITE_API_BASE_URL` to your deployed API URL
-- the rewrite rule sends clean public paths like `/about` and `/admin` back to `index.html`
+### Vercel (Client)
 
-## Terraform / Atlas
+Import the repo and use:
 
-The `infra/` directory is intentionally limited to stable Atlas foundation pieces. Temporary roaming laptop IP access is handled outside Terraform.
+- Root Directory: `client`
+- Framework Preset: Vite
+- Build Command: `npm run build`
+- Output Directory: `dist`
 
-Current infra scope:
+Set `VITE_API_BASE_URL` to the Render API URL.
 
-- Atlas provider/version pinning
-- Atlas project
-- M0 cluster
-- local helper docs for temporary Atlas access
+### Post-deploy order
 
-## Admin Access
+1. Deploy Render, verify `/api/health` returns `{"status":"ok"}`
+2. Deploy Vercel, copy the production URL
+3. Update `CLIENT_ORIGIN` in Render env vars to the exact Vercel URL
+4. Redeploy Render
+5. Test admin login at `/admin` with email + password + Authenticator code
 
-Use the admin helper from the server directory:
+### Rollback
+
+- **Vercel** → Deployments tab → redeploy any previous build
+- **Render** → roll back to a previous deploy or push a revert commit
+- **MFA loss** → use a recovery code; if all codes are gone, run `admin:mfa:setup` again, update the two MFA env vars in Render, and redeploy
+
+---
+
+## Admin Panel
+
+The admin dashboard is at `/admin`. It uses a secure httpOnly cookie session — no tokens in localStorage.
+
+For API testing outside the browser (Postman, curl):
 
 ```bash
+cd server
 npm run admin:login
 ```
 
-That prints a JWT you can use against `/api/admin/*` routes in Postman, Thunder Client, or `curl`.
+That prints a JWT you can pass as a Bearer token.
 
-The browser admin panel now uses an httpOnly cookie session instead of storing the admin JWT in `localStorage` or `sessionStorage`.
+---
 
-The browser admin panel is available at:
+## Infrastructure
 
-```text
-http://localhost:5173/admin
+The `infra/` directory manages the MongoDB Atlas project and M0 cluster through Terraform. Temporary IP access for local development should be added through the Atlas UI or Atlas CLI, not Terraform.
+
+```bash
+# add your current IP temporarily
+atlas accessLists create --currentIp --projectId YOUR_PROJECT_ID
 ```
 
-## Production Notes
-
-The current admin auth model is designed for a single-admin portfolio:
-
-- email and password are server env credentials
-- MFA is TOTP-based
-- recovery codes are env-backed emergency access codes
-- the browser uses a secure cookie session
-
-Recommended pre-launch checklist:
-
-1. Set strong values for `ADMIN_PASSWORD` and `JWT_SECRET`.
-2. Run `npm run admin:mfa:setup` and store the recovery codes outside the repo.
-3. Set the exact deployed client URL in `CLIENT_ORIGIN`.
-4. Set `VITE_API_BASE_URL` in the deployed client to the real API URL.
-5. Test `/admin` over the real production domains before going live.
+State files and `.tfvars` are gitignored. Keep them local or use remote state.
