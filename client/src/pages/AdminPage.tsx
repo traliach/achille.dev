@@ -25,6 +25,7 @@ type ProfileDraft = {
   timelineText: string
   email: string
   linkedin: string
+  github: string
   resume: string
 }
 
@@ -138,6 +139,7 @@ function createEmptyProfileDraft(): ProfileDraft {
     timelineText: '',
     email: '',
     linkedin: '',
+    github: '',
     resume: '',
   }
 }
@@ -156,6 +158,7 @@ function toProfileDraft(profile: ProfileContent): ProfileDraft {
     timelineText: joinTimeline(profile.timeline),
     email: profile.links.email,
     linkedin: profile.links.linkedin,
+    github: profile.links.github,
     resume: profile.links.resume,
   }
 }
@@ -175,6 +178,7 @@ function toProfilePayload(draft: ProfileDraft): ProfileContent {
     links: {
       email: draft.email.trim(),
       linkedin: draft.linkedin.trim(),
+      github: draft.github.trim(),
       resume: draft.resume.trim(),
     },
   }
@@ -1190,6 +1194,18 @@ export function AdminPage() {
                   setProfileDraft((current) => ({
                     ...current,
                     linkedin: event.target.value,
+                  }))
+                }
+              />
+            </label>
+            <label className="field">
+              <span>GitHub URL</span>
+              <input
+                value={profileDraft.github}
+                onChange={(event) =>
+                  setProfileDraft((current) => ({
+                    ...current,
+                    github: event.target.value,
                   }))
                 }
               />
