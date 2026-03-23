@@ -16,6 +16,7 @@ export interface ProfileContent {
   links: {
     email: string
     linkedin: string
+    github: string
     resume: string
   }
 }

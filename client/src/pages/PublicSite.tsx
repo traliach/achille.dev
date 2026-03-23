@@ -13,7 +13,7 @@ import { SkillsPage } from './SkillsPage'
 
 const pageMetadata = {
   '/': {
-    title: 'Ali Achille Traore | DevOps Engineer',
+    title: 'Ali Achille Traore | DevOps Engineer & Full-Stack Software Engineer',
     description:
       'Portfolio for Ali Achille Traore, focused on DevOps, cloud infrastructure, CI/CD, and modern full-stack engineering.',
   },
@@ -135,8 +135,7 @@ export function PublicSite() {
                 {portfolio.profile.title}
               </p>
               <p className="max-w-2xl text-sm leading-7 text-muted">
-                Cloud delivery, CI/CD, infrastructure automation, platform reliability,
-                and production-minded software engineering.
+                {portfolio.profile.summary}
               </p>
             </div>
 
@@ -160,7 +159,7 @@ export function PublicSite() {
               <a
                 aria-label="GitHub"
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white text-muted transition hover:border-accent/30 hover:text-accent-deep"
-                href="https://github.com/traliach"
+                href={portfolio.profile.links.github}
                 rel="noreferrer"
                 target="_blank"
               >

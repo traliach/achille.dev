@@ -28,12 +28,6 @@ export function AboutPage({ profile }: AboutPageProps) {
                   <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
                     {profile.about}
                   </p>
-                  <p className={bodyClass}>
-                    In parallel with DevOps work, I have been building full-stack
-                    applications with React, TypeScript, Express, and MongoDB —
-                    strengthening the connection between how software is built and how
-                    it gets delivered.
-                  </p>
                 </div>
               </div>
 
