@@ -9,6 +9,9 @@ on:
 permissions:
   contents: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   server:
     name: Server (build + test)
@@ -75,7 +78,7 @@ jobs:
           echo "Waiting 60s for Render to start deploy..."
           sleep 60
           for i in $(seq 1 10); do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_SERVICE_URL }}/health")
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.RENDER_SERVICE_URL }}/api/health")
             if [ "$STATUS" = "200" ]; then
               echo "Health check passed (attempt $i)"
               exit 0
