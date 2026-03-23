@@ -1,56 +1,125 @@
-# achille.dev
+![Build](https://img.shields.io/github/actions/workflow/status/traliach/achille.dev/ci.yml?branch=main&style=flat-square)
+![License](https://img.shields.io/github/license/traliach/achille.dev?style=flat-square)
+![Last Commit](https://img.shields.io/github/last-commit/traliach/achille.dev?style=flat-square)
+![Deployments](https://img.shields.io/github/deployments/traliach/achille.dev/production?style=flat-square&label=production)
 
-Personal portfolio platform — public-facing site with an admin dashboard for managing all content.
+![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-844FBA?style=flat-square&logo=terraform&logoColor=white)
 
-**Live:** client on Vercel, API on Render, database on MongoDB Atlas.
+
+# achille.tech
+
+Personal portfolio platform — public-facing site with an admin dashboard for managing all content live, without touching the codebase.
+
+**Live at [achille.tech](https://achille.tech)**
+API on Render · Database on MongoDB Atlas · Infrastructure provisioned with Terraform
 
 ---
 
-## Stack
+## Architecture
 
-- `client/` — React 19 + TypeScript + Vite + Tailwind CSS
-- `server/` — Node.js + Express + TypeScript + MongoDB/Mongoose
-- `infra/` — Terraform for MongoDB Atlas (project + M0 cluster)
-- Auth — JWT + TOTP MFA (Google Authenticator)
-- CI/CD — GitHub Actions → auto-deploy to Render + Vercel
+```
+Browser
+  │
+  ├── achille.tech (Vercel CDN)
+  │     React 19 + TypeScript + Vite + Tailwind CSS
+  │     └── /api/* proxied to Render
+  │
+  └── resume-platform-api.onrender.com (Render Web Service)
+        Node.js + Express + TypeScript
+        └── MongoDB Atlas M0 (AWS us-east-1)
+              provisioned via Terraform (mongodbatlas provider)
+```
+
+CI/CD flow on every push to `main`:
+
+```
+push → GitHub Actions
+         ├── server   (TypeScript build + smoke tests)   ─┐
+         ├── client   (ESLint + Vite build)               ├─ parallel
+         └── audit    (npm audit --audit-level=high)      ─┘
+                 │
+                 └── deploy (only if all three pass)
+                       ├── POST Render deploy hook
+                       └── poll GET /api/health until 200
+                             (Vercel deploys automatically on same push)
+```
+
+---
+
+## Tech Stack
+
+### Client (`client/`)
+- React 19 with TypeScript and strict mode
+- Vite for dev server and production builds
+- Tailwind CSS v4 for styling
+- React Router for client-side routing
+- Vite proxy forwards `/api` to the local Express server during development — no env var needed locally
+
+### Server (`server/`)
+- Node.js with Express and TypeScript
+- MongoDB via Mongoose for data persistence
+- JWT authentication with httpOnly cookie sessions
+- TOTP MFA using `otplib` — admin login requires a 6-digit code from Google Authenticator
+- Zod for request validation
+- Nodemailer for contact form email delivery (Gmail SMTP)
+
+### Infrastructure (`infra/`)
+- Terraform with the official `mongodbatlas` provider (v2.8.0)
+- Provisions the Atlas project and an M0 free-tier replica set cluster on AWS us-east-1
+- Service account authentication (client ID + secret) — no personal API keys
+- State files and `.tfvars` are gitignored; keep them local or use remote state (S3, Terraform Cloud)
+- IP allowlist managed separately through the Atlas CLI — not tracked in Terraform
+
+### CI/CD (`.github/workflows/ci.yml`)
+- GitHub Actions on every push and pull request
+- Four jobs: `server`, `client`, `audit` run in parallel — `deploy` gates on all three
+- Deploy triggers a Render webhook then health-checks the API before marking success
+- Vercel picks up the same push automatically via its GitHub integration
+- Node.js 24 throughout (`FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true`)
+
+### Security
+- Admin session uses an httpOnly, SameSite=Strict cookie — no tokens in localStorage
+- TOTP MFA with recovery codes (hashed with bcrypt, stored as env vars)
+- CORS locked to `CLIENT_ORIGIN` — only the production Vercel URL is accepted
+- `npm audit` runs on every push and blocks deploy on high or critical findings
 
 ---
 
 ## Local Development
 
-Install from the repo root once:
+Install from the repo root:
 
 ```bash
 npm install
 ```
 
-Start the API:
+Start the API (port 4000):
 
 ```bash
 cd server
 npm run dev
 ```
 
-Start the client (in a separate terminal):
+Start the client (port 5173) in a separate terminal:
 
 ```bash
 cd client
 npm run dev
 ```
 
-Client runs on `http://localhost:5173`. The Vite proxy forwards `/api` requests to `http://localhost:4000`, so `VITE_API_BASE_URL` doesn't need to be set locally.
+The Vite proxy forwards `/api` requests to `http://localhost:4000`, so `VITE_API_BASE_URL` does not need to be set locally.
 
 ---
 
 ## Environment Variables
 
-Copy the example file and fill in the values:
-
 ```bash
 cp server/.env.example server/.env
 ```
-
-Required server variables:
 
 ```env
 PORT=4000
@@ -62,32 +131,32 @@ JWT_SECRET=long-random-string
 JWT_EXPIRES_IN=12h
 ADMIN_MFA_SECRET=
 ADMIN_MFA_RECOVERY_CODE_HASHES=
-ADMIN_MFA_ISSUER=achille.dev Admin
+ADMIN_MFA_ISSUER=achille.tech Admin
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your@gmail.com
 SMTP_PASS=your-app-password
 ```
 
-For local development without a deployed API, leave `VITE_API_BASE_URL` unset in the client. Set it in Vercel for production:
+For production, set `VITE_API_BASE_URL` in Vercel environment variables:
 
 ```env
-VITE_API_BASE_URL=https://your-api.onrender.com
+VITE_API_BASE_URL=https://resume-platform-api.onrender.com
 ```
 
 ---
 
 ## MFA Setup
 
-Run this once before deploying to production:
+Run once before the first production deploy:
 
 ```bash
 npm --workspace server run admin:mfa:setup
 ```
 
-It prints the `ADMIN_MFA_SECRET`, `ADMIN_MFA_RECOVERY_CODE_HASHES`, and an `otpauth://` URL. Scan that URL in Google Authenticator (or Authy, 1Password, etc.). Save the recovery codes somewhere offline — not in the repo.
+This prints the `ADMIN_MFA_SECRET`, `ADMIN_MFA_RECOVERY_CODE_HASHES`, and an `otpauth://` URI. Scan the URI in Google Authenticator (or Authy, 1Password, etc.). Store recovery codes offline — never in the repo.
 
-To get the current 6-digit code during local testing:
+To print the current 6-digit code during local testing:
 
 ```bash
 npm --workspace server run admin:mfa:code
@@ -100,19 +169,19 @@ npm --workspace server run admin:mfa:code
 From the repo root:
 
 ```bash
-npm run dev:client        # start client dev server
-npm run dev:server        # start API dev server
+npm run dev:client        # client dev server
+npm run dev:server        # API dev server
 npm run build:client      # Vite production build
 npm run build:server      # TypeScript compile
 npm run lint:client       # ESLint
 npm run test:server       # build + smoke tests
-npm run ci                # full check (server + client)
+npm run ci                # full check (server + client + audit)
 ```
 
-From the server directory:
+From `server/`:
 
 ```bash
-npm run admin:login       # print a JWT for API testing
+npm run admin:login       # print a JWT for API testing (curl, Postman)
 npm run admin:mfa:setup   # generate MFA secret + recovery codes
 npm run admin:mfa:code    # print current TOTP code
 npm run content:reset     # reset DB to seed data
@@ -122,13 +191,13 @@ npm run content:reset     # reset DB to seed data
 
 ## Tests
 
-The server smoke test suite covers:
+Smoke tests cover the critical server paths without requiring a live database:
 
 - `GET /api/health`
-- admin login (success and failure cases)
-- session check after login
-- admin route guard behavior
-- public testimonial submission when MongoDB is unavailable
+- Admin login — success, wrong password, missing MFA
+- Session check after login
+- Admin route guard (401 without valid session)
+- Public testimonial submission with MongoDB unavailable
 
 ```bash
 cd server
@@ -137,93 +206,80 @@ npm run test
 
 ---
 
-## CI/CD
+## Infrastructure (Terraform)
 
-Pipeline is in `.github/workflows/ci.yml`.
+The `infra/` directory manages the MongoDB Atlas project and cluster. Requires Terraform CLI and a MongoDB Atlas service account.
 
-Three jobs run in parallel on every push and pull request:
+```bash
+cd infra
+cp terraform.tfvars.example terraform.tfvars
+# fill in atlas_org_id, MONGODB_ATLAS_CLIENT_ID, MONGODB_ATLAS_CLIENT_SECRET
+terraform init
+terraform plan
+terraform apply
+```
 
-- **server** — TypeScript build + smoke tests
-- **client** — ESLint + Vite build
-- **audit** — `npm audit` at high severity
+To add your local IP to the Atlas allowlist temporarily:
 
-If all three pass and the push is to `main`, a fourth **deploy** job fires:
+```bash
+atlas accessLists create --currentIp --projectId YOUR_PROJECT_ID
+```
 
-1. Triggers a Render deploy hook
-2. Waits and polls `GET /api/health` until it returns 200
-3. Vercel deploys automatically from the same git push
+The cluster has `prevent_destroy = true` on the Terraform lifecycle to guard against accidental teardown.
 
-Required GitHub secrets:
+---
+
+## Deployment
+
+### GitHub Secrets (required for CI/CD)
 
 | Secret | Where to get it |
 |--------|----------------|
 | `RENDER_DEPLOY_HOOK` | Render → service → Settings → Deploy Hook |
 | `RENDER_SERVICE_URL` | Your Render service URL, e.g. `https://resume-platform-api.onrender.com` |
 
----
-
-## Deploying
-
 ### Render (API)
-
-Create a Web Service, point it at this repo, and use:
 
 - Root Directory: `server`
 - Build Command: `npm ci && npm run build`
 - Start Command: `npm run start`
 - Health Check Path: `/api/health`
 
-Set all server environment variables from the section above. Set `CLIENT_ORIGIN` to the exact Vercel URL after you have it — the admin cookie won't work otherwise.
+Set all server env vars. Set `CLIENT_ORIGIN` to the exact production URL — the admin cookie will be rejected otherwise.
 
 ### Vercel (Client)
-
-Import the repo and use:
 
 - Root Directory: `client`
 - Framework Preset: Vite
 - Build Command: `npm run build`
 - Output Directory: `dist`
+- Environment variable: `VITE_API_BASE_URL` → Render API URL
 
-Set `VITE_API_BASE_URL` to the Render API URL.
+### First deploy order
 
-### Post-deploy order
-
-1. Deploy Render, verify `/api/health` returns `{"status":"ok"}`
+1. Deploy Render, confirm `GET /api/health` returns `{"status":"ok"}`
 2. Deploy Vercel, copy the production URL
-3. Update `CLIENT_ORIGIN` in Render env vars to the exact Vercel URL
+3. Set `CLIENT_ORIGIN` in Render env vars to the Vercel URL
 4. Redeploy Render
-5. Test admin login at `/admin` with email + password + Authenticator code
+5. Run `admin:mfa:setup`, set `ADMIN_MFA_SECRET` and `ADMIN_MFA_RECOVERY_CODE_HASHES` in Render
+6. Redeploy Render, test admin login at `/admin`
 
 ### Rollback
 
-- **Vercel** → Deployments tab → redeploy any previous build
-- **Render** → roll back to a previous deploy or push a revert commit
-- **MFA loss** → use a recovery code; if all codes are gone, run `admin:mfa:setup` again, update the two MFA env vars in Render, and redeploy
+- **Vercel** — Deployments tab → redeploy any previous build instantly
+- **Render** — roll back to a previous deploy or push a revert commit
+- **MFA loss** — use a recovery code; if all are gone, rerun `admin:mfa:setup`, update the two MFA env vars in Render, redeploy
 
 ---
 
 ## Admin Panel
 
-The admin dashboard is at `/admin`. It uses a secure httpOnly cookie session — no tokens in localStorage.
+The dashboard is at `/admin`. Session is managed with a secure httpOnly cookie — nothing is stored in localStorage.
 
-For API testing outside the browser (Postman, curl):
+For API testing outside the browser:
 
 ```bash
 cd server
 npm run admin:login
+# use the printed JWT as: Authorization: Bearer <token>
 ```
-
-That prints a JWT you can pass as a Bearer token.
-
----
-
-## Infrastructure
-
-The `infra/` directory manages the MongoDB Atlas project and M0 cluster through Terraform. Temporary IP access for local development should be added through the Atlas UI or Atlas CLI, not Terraform.
-
-```bash
-# add your current IP temporarily
-atlas accessLists create --currentIp --projectId YOUR_PROJECT_ID
-```
-
-State files and `.tfvars` are gitignored. Keep them local or use remote state.
