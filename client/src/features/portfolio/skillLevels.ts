@@ -47,8 +47,8 @@ export const skillLevels: Record<string, number> = {
   GCP: 2,
 
   // Containers and orchestration
-  Docker: 5,
-  Kubernetes: 5,
+  Docker: 4,
+  Kubernetes: 4,
   OpenShift: 4,
 
   // Observability and operations
