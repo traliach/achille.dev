@@ -59,6 +59,16 @@ export function ResumePage() {
           Download PDF
         </button>
       </div>
+      <p className="resume-print-tip" style={{
+        maxWidth: '8.5in',
+        margin: '0 auto 0.75rem',
+        fontSize: '8pt',
+        fontFamily: 'Arial, sans-serif',
+        color: '#777',
+        textAlign: 'right',
+      }}>
+        Tip: in Chrome's print dialog → More settings → uncheck <strong>Headers and footers</strong> for a clean 2-page PDF.
+      </p>
 
       {/* ── PAGE 1 ── Name · Contact · Summary · Skills | Experience · Certifications */}
       <div className="resume-page">

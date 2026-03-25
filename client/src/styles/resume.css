@@ -311,6 +311,66 @@
   color: #333;
 }
 
+/* ── Mobile ─────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .resume-shell {
+    padding: 0;
+    background: #fff;
+  }
+
+  .resume-toolbar {
+    padding: 0.75rem 1rem;
+    background: #f3f3f0;
+  }
+
+  .resume-page {
+    flex-direction: column;
+    max-width: 100%;
+    min-height: auto;
+    margin: 0 0 0.5rem;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .resume-sidebar {
+    width: 100%;
+    min-width: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  .resume-main {
+    padding: 1.25rem 1rem;
+  }
+
+  .resume-name {
+    font-size: 14pt;
+  }
+
+  .resume-title {
+    font-size: 8.5pt;
+  }
+
+  .resume-timeline-header,
+  .resume-project-header {
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .resume-timeline-period,
+  .resume-project-meta {
+    white-space: normal;
+  }
+
+  .resume-skill-row {
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .resume-skill-label {
+    min-width: 0;
+  }
+}
+
 /* ── Print ──────────────────────────────────────────────────────────── */
 @media print {
   .resume-shell {
@@ -322,16 +382,39 @@
     display: none !important;
   }
 
+  .resume-print-tip {
+    display: none !important;
+  }
+
   .resume-page {
     box-shadow: none;
     margin: 0;
     min-height: auto;
     max-width: 100%;
+    font-size: 9.5pt;
   }
 
   .resume-page-2 {
     break-before: page;
   }
+
+  /* tighter padding to fit 2 pages */
+  .resume-sidebar,
+  .resume-main {
+    padding-top: 0.35in;
+    padding-bottom: 0.35in;
+  }
+
+  /* tighten all gaps */
+  .resume-section         { gap: 0.2rem; }
+  .resume-timeline        { gap: 0.35rem; }
+  .resume-projects        { gap: 0.45rem; }
+  .resume-skills          { gap: 0.18rem; }
+  .resume-sidebar-section { gap: 0.18rem; }
+  .resume-sidebar-skill   { margin-bottom: 0.18rem; }
+
+  /* prevent break-inside from forcing a 3rd page */
+  .resume-project-item { break-inside: auto; }
 
   @page {
     size: letter;
