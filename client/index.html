@@ -27,6 +27,15 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Prevent flash of wrong theme before React loads -->
+    <script>
+      (function () {
+        var t = localStorage.getItem('theme')
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        }
+      })()
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

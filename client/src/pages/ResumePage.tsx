@@ -1,9 +1,17 @@
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { profileFr, projectsFr, skillsFr } from '../features/portfolio/resume.fr'
+import { useDarkMode } from '../hooks/useDarkMode'
 import { usePortfolioData } from '../hooks/usePortfolioData'
 
 export function ResumePage() {
-  const { profile, projects, skills } = usePortfolioData()
-  const featuredProjects = projects.filter((p) => p.featured)
+  const { profile: profileEn, projects: projectsEn, skills: skillsEn } = usePortfolioData()
+  const [lang, setLang] = useState<'en' | 'fr'>('en')
+  const { dark, toggle: toggleDark } = useDarkMode()
+
+  const profile = lang === 'fr' ? profileFr : profileEn
+  const skills = lang === 'fr' ? skillsFr : skillsEn
+  const allProjects = lang === 'fr' ? projectsFr : projectsEn
+  const featuredProjects = allProjects.filter((p) => p.featured)
 
   useEffect(() => {
     document.title = `${profile.name} | Resume`
@@ -20,41 +28,63 @@ export function ResumePage() {
     return raw.replace('https://', '').replace('http://', '')
   }
 
+  const toolbarBase: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    padding: '0.45rem 1rem',
+    borderRadius: '6px',
+    fontSize: '9pt',
+    fontFamily: 'Arial, sans-serif',
+    cursor: 'pointer',
+    transition: 'opacity 0.2s',
+  }
+
   return (
     <div className="resume-shell">
       {/* Toolbar — hidden on print */}
       <div className="resume-toolbar">
         <a
           href="/"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            padding: '0.45rem 1rem',
-            background: '#fff',
-            border: '1px solid #ccc',
-            borderRadius: '6px',
-            fontSize: '9pt',
-            fontFamily: 'Arial, sans-serif',
-            color: '#333',
-            textDecoration: 'none',
-          }}
+          style={{ ...toolbarBase, background: dark ? '#1c2028' : '#fff', border: `1px solid ${dark ? 'rgba(255,255,255,0.1)' : '#ccc'}`, color: dark ? '#d1d5db' : '#333', textDecoration: 'none' }}
         >
           ← Back to site
         </a>
+
+        {/* EN / FR toggle */}
+        <div style={{ display: 'inline-flex', borderRadius: '6px', overflow: 'hidden', border: `1px solid ${dark ? 'rgba(255,255,255,0.1)' : '#ccc'}` }}>
+          {(['en', 'fr'] as const).map((l) => (
+            <button
+              key={l}
+              onClick={() => setLang(l)}
+              style={{
+                ...toolbarBase,
+                padding: '0.45rem 0.85rem',
+                border: 'none',
+                borderRadius: 0,
+                background: lang === l ? '#1d3557' : dark ? '#1c2028' : '#fff',
+                color: lang === l ? '#fff' : dark ? '#9ca3af' : '#555',
+                fontWeight: lang === l ? 700 : 400,
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+              }}
+            >
+              {l}
+            </button>
+          ))}
+        </div>
+
+        {/* Dark mode toggle */}
+        <button
+          onClick={toggleDark}
+          aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={{ ...toolbarBase, background: dark ? '#1c2028' : '#fff', border: `1px solid ${dark ? 'rgba(255,255,255,0.1)' : '#ccc'}`, color: dark ? '#d1d5db' : '#555', padding: '0.45rem 0.65rem' }}
+        >
+          {dark ? '☀' : '☾'}
+        </button>
+
         <button
           onClick={() => window.print()}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            padding: '0.45rem 1.25rem',
-            background: '#1d3557',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '9pt',
-            fontFamily: 'Arial, sans-serif',
-            color: '#fff',
-            cursor: 'pointer',
-          }}
+          style={{ ...toolbarBase, background: '#1d3557', border: 'none', color: '#fff', padding: '0.45rem 1.25rem' }}
         >
           Download PDF
         </button>
