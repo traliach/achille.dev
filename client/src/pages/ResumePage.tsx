@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { certificationLinks } from '../features/portfolio/content'
 import { profileFr, projectsFr, skillsFr } from '../features/portfolio/resume.fr'
 import { useDarkMode } from '../hooks/useDarkMode'
 import { usePortfolioData } from '../hooks/usePortfolioData'
@@ -169,9 +170,14 @@ export function ResumePage() {
           <div className="resume-section">
             <p className="resume-section-title">Certifications</p>
             <div className="resume-certs">
-              {profile.certifications.map((cert) => (
-                <span className="resume-cert" key={cert}>· {cert}</span>
-              ))}
+              {profile.certifications.map((cert) => {
+                const url = certificationLinks[cert]
+                return url ? (
+                  <a className="resume-cert" href={url} key={cert} target="_blank" rel="noreferrer">· {cert}</a>
+                ) : (
+                  <span className="resume-cert" key={cert}>· {cert}</span>
+                )
+              })}
             </div>
           </div>
 

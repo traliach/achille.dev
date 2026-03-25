@@ -5,6 +5,7 @@ import {
   headingClasses,
   metaClass,
 } from '../components/site/styles'
+import { certificationLinks } from '../features/portfolio/content'
 import type { ProfileContent } from '../types/site'
 
 interface AboutPageProps {
@@ -59,12 +60,21 @@ export function AboutPage({ profile }: AboutPageProps) {
             <SurfaceCard className="flex flex-col gap-5" tone="subdued">
               <p className={finePrintClass}>Certifications</p>
               <ul className="grid gap-3">
-                {profile.certifications.map((item) => (
-                  <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
-                    <span className={bodyClass}>{item}</span>
-                  </li>
-                ))}
+                {profile.certifications.map((item) => {
+                  const url = certificationLinks[item]
+                  return (
+                    <li className="flex gap-3" key={item}>
+                      <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
+                      {url ? (
+                        <a className={bodyClass} href={url} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+                          {item}
+                        </a>
+                      ) : (
+                        <span className={bodyClass}>{item}</span>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             </SurfaceCard>
 

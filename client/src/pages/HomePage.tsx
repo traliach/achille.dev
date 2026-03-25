@@ -17,7 +17,7 @@ import {
   headingClasses,
   metaClass,
 } from '../components/site/styles'
-import { highlightMetrics } from '../features/portfolio/content'
+import { certificationLinks, highlightMetrics } from '../features/portfolio/content'
 import type {
   ApiHealth,
   ApiState,
@@ -148,12 +148,21 @@ export function HomePage({
               </div>
 
               <ul className="grid gap-3">
-                {profile.certifications.map((item) => (
-                  <li className="flex gap-3" key={item}>
-                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
-                    <span className={bodyClass}>{item}</span>
-                  </li>
-                ))}
+                {profile.certifications.map((item) => {
+                  const url = certificationLinks[item]
+                  return (
+                    <li className="flex gap-3" key={item}>
+                      <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
+                      {url ? (
+                        <a className={bodyClass} href={url} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+                          {item}
+                        </a>
+                      ) : (
+                        <span className={bodyClass}>{item}</span>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
 
               <div className="flex flex-wrap gap-2">

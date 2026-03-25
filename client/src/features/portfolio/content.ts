@@ -10,6 +10,14 @@ import type {
   TestimonialSubmissionInput,
 } from '../../types/site'
 
+// Credly badge links — keyed by exact cert name (both EN dash and hyphen variants).
+export const certificationLinks: Record<string, string> = {
+  'AWS Certified DevOps Engineer – Professional': 'https://www.credly.com/badges/cf4257f0-c48c-4ac9-9e40-aa39af363975',
+  'AWS Certified DevOps Engineer - Professional': 'https://www.credly.com/badges/cf4257f0-c48c-4ac9-9e40-aa39af363975',
+  'AWS Certified Cloud Practitioner': 'https://www.credly.com/badges/3b65cf67-1576-42ef-a926-fda8366c88bb',
+  'Google IT Support Professional Certificate': 'https://www.credly.com/badges/a4afd99a-9bd5-44af-a5bd-ebe2b5e1bbc4',
+}
+
 export const fallbackProfile: ProfileContent = {
   name: 'Ali Achille Traore',
   title: 'DevOps Engineer & Full-Stack Software Engineer',
