@@ -73,7 +73,7 @@ export function HomePage({
               </div>
 
               <div className="space-y-7">
-                <h1 className="max-w-[14ch] font-display text-[clamp(2.2rem,4vw,3.8rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-ink">
+                <h1 className="max-w-[22ch] font-display text-[clamp(1.8rem,3vw,2.8rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-ink">
                   DevOps Engineer & Full-Stack Software Engineer — Kubernetes
                   platforms, cloud infrastructure, CI/CD automation, and
                   production-ready applications.
