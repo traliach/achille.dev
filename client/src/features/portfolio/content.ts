@@ -186,6 +186,75 @@ export const projectSummaries: ProjectSummary[] = [
       'Pipeline security controls reduced vulnerabilities by ~15%.',
     ],
   },
+  {
+    title: 'cloud_resume_infra — AWS Resume Platform',
+    timeframe: '2025',
+    role: 'DevOps Engineer',
+    featured: true,
+    summary:
+      'Production-grade static resume site on AWS — S3, CloudFront, Lambda visitor counter, DynamoDB, API Gateway, ACM — all 20 resources provisioned with Terraform and deployed via GitHub Actions CI/CD.',
+    challenge:
+      'Build a fully automated cloud resume platform with zero manual console steps — every AWS resource defined as code, a live serverless visitor counter, and a CI/CD pipeline that validates and deploys on every push.',
+    solution:
+      'Provisioned 20 AWS resources with Terraform (S3, CloudFront, ACM, Lambda, DynamoDB, API Gateway, IAM). Python Lambda handles atomic visitor count increments with unit tests. GitHub Actions runs Terraform, Lambda tests, and frontend build in parallel on every PR — deploys on merge to main.',
+    stack: ['Terraform', 'AWS', 'S3', 'CloudFront', 'Lambda', 'DynamoDB', 'API Gateway', 'ACM', 'Python', 'GitHub Actions'],
+    metrics: [
+      { label: 'AWS Resources', value: '20' },
+      { label: 'Lambda Tests', value: '4 passing' },
+      { label: 'Actual Cost', value: '$0.00 / month' },
+    ],
+    outcomes: [
+      'Live at resume.achille.tech — HTTPS via CloudFront + ACM, S3 fully private behind OAC.',
+      'Atomic Lambda visitor counter with least-privilege IAM and CORS scoped to origin.',
+      'Three CloudWatch alarms monitor Lambda error rate, p95 duration, and throttles.',
+    ],
+  },
+  {
+    title: 'k8s-platform-lab — Self-Hosted Kubernetes Platform',
+    timeframe: '2025 – 2026',
+    role: 'DevOps Engineer',
+    featured: true,
+    summary:
+      'Self-hosted Kubernetes platform on AWS EC2 — k3s cluster, ArgoCD GitOps App-of-Apps, Prometheus + Grafana observability, Node.js sample app with HPA, all provisioned with Terraform.',
+    challenge:
+      'Build a production-representative Kubernetes platform from scratch on a single EC2 instance — GitOps delivery, Helm-managed releases, live observability, and a real deployed application — without a managed cloud cluster.',
+    solution:
+      'Terraform provisions an EC2 t3.medium with VPC and firewall. k3s runs the cluster. ArgoCD App-of-Apps pattern auto-syncs all workloads on every push to main. kube-prometheus-stack delivers Prometheus and Grafana. Node.js sample app exposes /health and /metrics with HPA and Traefik ingress.',
+    stack: ['Kubernetes', 'k3s', 'ArgoCD', 'Helm', 'Prometheus', 'Grafana', 'Terraform', 'AWS EC2', 'GitHub Actions', 'Docker', 'Node.js'],
+    metrics: [
+      { label: 'GitOps', value: 'ArgoCD App-of-Apps' },
+      { label: 'Platform checks', value: '21 / 21 passing' },
+      { label: 'Observability', value: 'Prometheus + Grafana' },
+    ],
+    outcomes: [
+      'Push to main auto-syncs all workloads to the cluster via ArgoCD — no manual kubectl apply.',
+      'Custom Grafana dashboard tracks live sample app metrics scraped by Prometheus.',
+      'verify-cluster.sh runs 21 end-to-end platform health checks in a single command.',
+    ],
+  },
+  {
+    title: 'devops_platform — Self-Hosted DevOps Platform',
+    timeframe: '2025 – 2026',
+    role: 'DevOps Engineer',
+    featured: true,
+    summary:
+      'End-to-end DevOps platform on AWS EC2 — Jenkins CI/CD, Prometheus, Grafana, and a React app deployed via Docker Compose, provisioned with Terraform, configured with Ansible, no SSH key required.',
+    challenge:
+      'Stand up a self-hosted DevOps platform covering the full delivery lifecycle — infrastructure provisioning, server configuration, CI/CD pipeline, containerized deployment, and live observability — in one cohesive system.',
+    solution:
+      'Terraform provisions EC2 with VPC, Elastic IP, and IAM for SSM access. Ansible configures Docker, swap, firewall, and deploy user. Docker Compose runs Jenkins, Prometheus, and Grafana. Jenkins pipeline builds the React app, pushes the image to GHCR, and redeploys on EC2 in ~60 seconds.',
+    stack: ['Terraform', 'Ansible', 'Jenkins', 'Docker Compose', 'Prometheus', 'Grafana', 'AWS EC2', 'GitHub Actions', 'React', 'Nginx', 'GHCR'],
+    metrics: [
+      { label: 'Pipeline time', value: '~60 seconds' },
+      { label: 'Access method', value: 'AWS SSM (no SSH)' },
+      { label: 'Jenkins config', value: 'JCasC (fully as code)' },
+    ],
+    outcomes: [
+      'Every push triggers a full build, GHCR push, and EC2 redeploy via Jenkins in ~60 seconds.',
+      'Jenkins configured entirely as code with JCasC — no manual UI setup.',
+      'EC2 access via AWS SSM Session Manager — no open port 22, no SSH key.',
+    ],
+  },
 ]
 
 export const skillGroups: SkillGroup[] = [
