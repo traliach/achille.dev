@@ -34,12 +34,10 @@ interface HomePageProps {
   testimonials: Testimonial[]
 }
 
-const coreFocus = [
-  'CI/CD and release engineering',
-  'Infrastructure automation',
-  'Cloud operations',
-  'Platform reliability',
-  'Full-stack application development',
+const LEAD_TITLE = 'k8s-platform-lab — Self-Hosted Kubernetes Platform'
+const SUPPORT_TITLES = [
+  'devops_platform — Self-Hosted DevOps Platform',
+  'Restaurant Deals — MERN Marketplace',
 ]
 
 export function HomePage({
@@ -49,11 +47,10 @@ export function HomePage({
   projects,
   testimonials,
 }: HomePageProps) {
-  const featuredProjects = projects.filter((project) => project.featured)
-  const leadProject = featuredProjects[0] ?? projects[0]
-  const supportingProjects = projects
-    .filter((project) => project.title !== leadProject?.title)
-    .slice(0, 2)
+  const leadProject = projects.find((p) => p.title === LEAD_TITLE) ?? projects[0]
+  const supportingProjects = SUPPORT_TITLES
+    .map((t) => projects.find((p) => p.title === t))
+    .filter((p): p is ProjectSummary => p !== undefined)
   const visibleTestimonials = testimonials.slice(0, 3)
   const emailLabel = profile.links.email.replace(/^mailto:/, '')
 
@@ -78,9 +75,9 @@ export function HomePage({
 
               <div className="space-y-7">
                 <h1 className="max-w-[14ch] font-display text-[clamp(2.2rem,4vw,3.8rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-ink">
-                  DevOps Engineer & Full-Stack Software Engineer — cloud
-                  infrastructure, CI/CD automation, and production-ready
-                  applications.
+                  DevOps Engineer & Full-Stack Software Engineer — Kubernetes
+                  platforms, cloud infrastructure, CI/CD automation, and
+                  production-ready applications.
                 </h1>
 
                 <p className="max-w-3xl text-[1.05rem] leading-8 text-muted sm:text-lg">
@@ -174,31 +171,15 @@ export function HomePage({
 
             <SurfaceCard className="flex flex-col gap-5" padding="compact">
               <p className={finePrintClass}>What I do</p>
-              <div className="grid gap-4">
-                <div>
-                  <p className="text-sm font-semibold text-ink">Cloud & DevOps</p>
-                  <ul className="mt-2 grid gap-2">
-                    {['Infrastructure as code — Terraform, Ansible, CloudFormation', 'CI/CD pipelines — Jenkins, Azure DevOps, GitHub Actions', 'Cloud operations across AWS, Azure, and GCP'].map((item) => (
-                      <li className="flex gap-2" key={item}>
-                        <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                        <span className={cx(bodyClass, 'text-sm')}>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-ink">Full-Stack Development</p>
-                  <ul className="mt-2 grid gap-2">
-                    {['REST APIs with Node.js, Express, and TypeScript', 'React frontends with Tailwind CSS', 'MongoDB, PostgreSQL data modeling'].map((item) => (
-                      <li className="flex gap-2" key={item}>
-                        <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-warm" />
-                        <span className={cx(bodyClass, 'text-sm')}>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <p className={metaClass}>{profile.availability}</p>
+              <ul className="grid gap-2">
+                {profile.strengths.map((item) => (
+                  <li className="flex gap-2" key={item}>
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
+                    <span className={cx(bodyClass, 'text-sm')}>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className={cx(bodyClass, 'text-sm border-t border-line/60 pt-4')}>{profile.intro}</p>
             </SurfaceCard>
           </div>
         </div>
