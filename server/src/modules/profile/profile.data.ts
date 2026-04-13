@@ -32,6 +32,12 @@ export const profile: ProfileContent = {
         'Improved CI/CD pipelines (Jenkins, Azure DevOps), cutting build/deploy time by ~30% and sustaining ~99.9% uptime across 10+ Kubernetes/OpenShift clusters. Automated 50+ infrastructure components with Terraform and Ansible.',
     },
     {
+      title: 'Independent Platform Engineering',
+      period: '2025 – 2026',
+      detail:
+        'Built three production-grade infrastructure projects independently: cloud_resume_infra (20 AWS resources via Terraform, live at resume.achille.tech), k8s-platform-lab (self-hosted k3s cluster on EC2 with ArgoCD GitOps and Prometheus/Grafana), and devops_platform (Terraform + Ansible + Jenkins + Docker Compose, SSM access, no open SSH).',
+    },
+    {
       title: 'AWS Cloud Engineer, Dominion Systems',
       period: 'June 2017 – July 2018',
       detail:
