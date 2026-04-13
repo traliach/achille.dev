@@ -7,11 +7,11 @@ export const profile: ProfileContent = {
   availability:
     'Open to DevOps, platform engineering, and full-stack software engineering roles.',
   summary:
-    'Software/platform engineer with a deep DevOps background building automation, delivery pipelines, and scalable runtime platforms. Delivered measurable improvements in release speed, reliability, and developer productivity across cloud-native systems on AWS, Azure, and GCP.',
+    'Platform and DevOps engineer with 7+ years building CI/CD pipelines, cloud infrastructure, and Kubernetes platforms — plus a full-stack track shipping React/TypeScript frontends and Node.js/Express APIs into production.',
   intro:
-    'Expanding into full-stack product delivery — shipping React/TypeScript frontends and Node.js/Express APIs — while bringing the same operational discipline to application code.',
+    'My portfolio spans both disciplines: cloud and IaC projects (Terraform-provisioned AWS infrastructure, self-hosted Kubernetes on EC2, Jenkins + Ansible platforms) and full-stack applications (MERN marketplace, medical imaging system, this site).',
   about:
-    "I work on the parts engineering teams notice most when they break: CI/CD pipelines, cloud environments, release handoffs, and production support. Seven years at Dominion Systems have covered Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift, and observability tooling (Prometheus, Grafana, Kibana), alongside hands-on AWS infrastructure and database operations. More recently I've been shipping full-stack applications — MERN-stack marketplaces, containerized Rails platforms, and medical imaging systems — closing the loop between deployment automation and the applications running on top of it.",
+    "I work on the parts engineering teams notice most when they break: CI/CD pipelines, cloud environments, release handoffs, and production support. Seven years at Dominion Systems have covered Jenkins, Azure DevOps, Terraform, Kubernetes, OpenShift, and observability tooling (Prometheus, Grafana, Kibana), alongside hands-on AWS infrastructure and database operations. My recent infrastructure projects go deeper: cloud_resume_infra provisions 20 AWS resources with Terraform and runs a live serverless visitor counter at resume.achille.tech; k8s-platform-lab runs a self-hosted k3s cluster on EC2 with ArgoCD GitOps, Prometheus, and Grafana; devops_platform combines Terraform, Ansible, Jenkins, and Docker Compose into a full delivery platform with SSM access and no open SSH port. Alongside that I ship full-stack applications — a MERN marketplace with Stripe and AI chat, a dual-site medical imaging system, and this portfolio — closing the loop between the platform and the applications running on top of it.",
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
