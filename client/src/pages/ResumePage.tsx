@@ -12,7 +12,16 @@ export function ResumePage() {
   const profile = lang === 'fr' ? profileFr : profileEn
   const skills = lang === 'fr' ? skillsFr : skillsEn
   const allProjects = lang === 'fr' ? projectsFr : projectsEn
-  const featuredProjects = allProjects.filter((p) => p.featured)
+
+  const RESUME_PROJECT_TITLES = [
+    'k8s-platform-lab — Self-Hosted Kubernetes Platform',
+    'cloud_resume_infra — AWS Resume Platform',
+    'devops_platform — Self-Hosted DevOps Platform',
+    'Restaurant Deals — MERN Marketplace',
+  ]
+  const featuredProjects = RESUME_PROJECT_TITLES
+    .map((t) => allProjects.find((p) => p.title === t))
+    .filter((p): p is (typeof allProjects)[number] => p !== undefined)
 
   useEffect(() => {
     document.title = `${profile.name} | Resume`

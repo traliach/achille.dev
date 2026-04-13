@@ -14,21 +14,25 @@ interface SkillsPageProps {
 }
 
 const skillSpanClasses = [
-  'xl:col-span-7',
-  'xl:col-span-5',
-  'xl:col-span-5',
-  'xl:col-span-7',
-  'xl:col-span-7',
-  'xl:col-span-5',
+  'xl:col-span-7', // 1. Languages
+  'xl:col-span-5', // 2. Frontend
+  'xl:col-span-5', // 3. Backend and APIs
+  'xl:col-span-7', // 4. Databases
+  'xl:col-span-7', // 5. CI/CD and delivery
+  'xl:col-span-5', // 6. Cloud and IaC
+  'xl:col-span-6', // 7. Containers and orchestration
+  'xl:col-span-6', // 8. Observability and operations
 ]
 
 const skillTones: Array<'default' | 'subdued' | 'accent' | 'warm'> = [
-  'accent',
-  'subdued',
-  'default',
-  'subdued',
-  'warm',
-  'default',
+  'accent',   // 1. Languages
+  'subdued',  // 2. Frontend
+  'default',  // 3. Backend and APIs
+  'subdued',  // 4. Databases
+  'warm',     // 5. CI/CD and delivery
+  'default',  // 6. Cloud and IaC
+  'accent',   // 7. Containers and orchestration
+  'subdued',  // 8. Observability and operations
 ]
 
 export function SkillsPage({ skills }: SkillsPageProps) {
