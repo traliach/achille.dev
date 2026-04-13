@@ -20,19 +20,41 @@ async function readMongoSkillGroups() {
     .lean()
     .exec()) as SkillGroupRecord[]
 
-  if (documents.length > 0) {
-    return documents.map(stripSkillGroupMetadata)
+  if (documents.length === 0) {
+    await SkillGroupModel.insertMany(
+      seedSkillGroups.map((skillGroup, order) => ({
+        order,
+        ...skillGroup,
+      })),
+    )
+    logInfo('Seeded skills collection from static data.')
+    return seedSkillGroups
   }
 
-  await SkillGroupModel.insertMany(
-    seedSkillGroups.map((skillGroup, order) => ({
-      order,
-      ...skillGroup,
-    })),
-  )
-  logInfo('Seeded skills collection from static data.')
+  // For each existing skill group, push any seed items not already in the document.
+  let synced = 0
+  for (const seedGroup of seedSkillGroups) {
+    const doc = documents.find((d) => d.eyebrow === seedGroup.eyebrow)
+    if (!doc) continue
+    const newItems = seedGroup.items.filter((item) => !doc.items.includes(item))
+    if (newItems.length > 0) {
+      await SkillGroupModel.updateOne(
+        { eyebrow: seedGroup.eyebrow },
+        { $push: { items: { $each: newItems } } },
+      )
+      synced += newItems.length
+    }
+  }
+  if (synced > 0) {
+    logInfo(`Synced ${synced} new skill item(s) from static data.`)
+    const updated = (await SkillGroupModel.find()
+      .sort({ order: 1 })
+      .lean()
+      .exec()) as SkillGroupRecord[]
+    return updated.map(stripSkillGroupMetadata)
+  }
 
-  return seedSkillGroups
+  return documents.map(stripSkillGroupMetadata)
 }
 
 export async function getSkillGroups() {
