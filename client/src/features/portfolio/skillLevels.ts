@@ -41,6 +41,7 @@ export const skillLevels: Record<string, number> = {
 
   // Cloud and IaC
   'AWS (S3, CloudFront, CodePipeline, API Gateway)': 5,
+  'AWS (S3, CloudFront, CodePipeline, API gateway)': 5, // lowercase 'g' — covers older MongoDB seed
   Terraform: 5,
   CloudFormation: 4,
   Ansible: 4,
