@@ -37,6 +37,7 @@ export const skillLevels: Record<string, number> = {
   'Docker Compose': 4,
   JFrog: 3,
   SonarQube: 3,
+  GHCR: 3,
 
   // Cloud and IaC
   'AWS (S3, CloudFront, CodePipeline, API Gateway)': 5,
@@ -49,7 +50,11 @@ export const skillLevels: Record<string, number> = {
   // Containers and orchestration
   Docker: 4,
   Kubernetes: 4,
+  k3s: 3,
+  ArgoCD: 4,
+  Helm: 3,
   OpenShift: 4,
+  Nginx: 3,
 
   // Observability and operations
   Prometheus: 4,

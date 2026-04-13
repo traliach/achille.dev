@@ -291,7 +291,7 @@ export const skillGroups: SkillGroup[] = [
     title: 'Release workflows that hold up in production',
     description:
       'Pipeline tooling used to reduce manual release steps and cut build/deploy time by ~30% in production.',
-    items: ['GitHub Actions', 'Jenkins', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube'],
+    items: ['GitHub Actions', 'Jenkins', 'Azure DevOps', 'Docker Compose', 'JFrog', 'SonarQube', 'GHCR'],
   },
   {
     eyebrow: 'Cloud and IaC',
@@ -305,7 +305,7 @@ export const skillGroups: SkillGroup[] = [
     title: 'Kubernetes, OpenShift, and Docker',
     description:
       'Container build and cluster operations sustaining ~99.9% uptime across 10+ Kubernetes and OpenShift environments.',
-    items: ['Docker', 'Kubernetes', 'OpenShift', 'Docker Compose'],
+    items: ['Docker', 'Kubernetes', 'k3s', 'ArgoCD', 'Helm', 'OpenShift', 'Docker Compose'],
   },
   {
     eyebrow: 'Observability and operations',
