@@ -269,7 +269,7 @@ export const skillGroups: SkillGroup[] = [
     title: 'AWS, Terraform, and multi-cloud infrastructure',
     description:
       'Infrastructure as code and cloud delivery across AWS, Azure, and GCP — 50+ components automated with Terraform and Ansible.',
-    items: ['AWS (S3, CloudFront, CodePipeline, API Gateway)', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'],
+    items: ['AWS', 'Terraform', 'CloudFormation', 'Ansible', 'Azure', 'GCP'],
   },
   {
     eyebrow: 'CI/CD and delivery',

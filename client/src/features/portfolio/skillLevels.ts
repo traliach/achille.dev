@@ -40,8 +40,9 @@ export const skillLevels: Record<string, number> = {
   GHCR: 3,
 
   // Cloud and IaC
-  'AWS (S3, CloudFront, CodePipeline, API Gateway)': 5,
-  'AWS (S3, CloudFront, CodePipeline, API gateway)': 5, // lowercase 'g' — covers older MongoDB seed
+  AWS: 5,
+  'AWS (S3, CloudFront, CodePipeline, API Gateway)': 5, // legacy key — covers older MongoDB seed
+  'AWS (S3, CloudFront, CodePipeline, API gateway)': 5, // legacy key — lowercase 'g' variant
   Terraform: 5,
   CloudFormation: 4,
   Ansible: 4,

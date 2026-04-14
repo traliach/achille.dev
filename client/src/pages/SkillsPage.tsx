@@ -53,6 +53,19 @@ export function SkillsPage({ skills }: SkillsPageProps) {
             building pipelines to shipping application features and keeping
             production systems observable.
           </p>
+          <div className="flex flex-wrap gap-3 border-t border-line/60 pt-3">
+            {[
+              { color: '#4338ca', label: 'Expert' },
+              { color: '#6366f1', label: 'Advanced' },
+              { color: '#f59e0b', label: 'Proficient' },
+              { color: '#94a3b8', label: 'Working' },
+            ].map(({ color, label }) => (
+              <span key={label} className="flex items-center gap-1.5 text-[0.72rem] text-muted">
+                <span className="h-2 w-2 flex-shrink-0 rounded-full" style={{ backgroundColor: color }} />
+                {label}
+              </span>
+            ))}
+          </div>
         </SurfaceCard>
       </div>
 
@@ -76,27 +89,30 @@ export function SkillsPage({ skills }: SkillsPageProps) {
               <p className={cx(metaClass, 'whitespace-nowrap')}>{group.items.length} tools / topics</p>
             </div>
 
-            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
               {group.items.map((item) => {
                 const level = skillLevels[item] ?? 3
+                const dotColor =
+                  level === 5 ? '#4338ca'
+                  : level === 4 ? '#6366f1'
+                  : level === 3 ? '#f59e0b'
+                  : '#94a3b8'
                 return (
-                  <div key={item} className="space-y-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-[0.82rem] font-medium text-ink dark:text-gray-200">{item}</span>
-                      <span className="shrink-0 text-[0.65rem] font-semibold uppercase tracking-wide text-muted dark:text-gray-500">
-                        {levelLabels[level]}
-                      </span>
-                    </div>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-black/[0.06] dark:bg-white/[0.08]">
-                      <div
-                        className="h-full rounded-full"
-                        style={{
-                          width: `${(level / 5) * 100}%`,
-                          background: 'linear-gradient(90deg, #4338ca, #818cf8)',
-                          transition: 'width 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-                        }}
-                      />
-                    </div>
+                  <div
+                    key={item}
+                    className="flex items-center gap-2.5 rounded-lg border border-line/40 bg-white/50 px-3 py-2"
+                  >
+                    <span
+                      aria-hidden
+                      className="h-2 w-2 flex-shrink-0 rounded-full"
+                      style={{ backgroundColor: dotColor }}
+                    />
+                    <span className="min-w-0 flex-1 truncate text-[0.82rem] font-medium text-ink">
+                      {item}
+                    </span>
+                    <span className="shrink-0 text-[0.62rem] font-semibold uppercase tracking-wide text-muted">
+                      {levelLabels[level]}
+                    </span>
                   </div>
                 )
               })}
