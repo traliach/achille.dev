@@ -19,6 +19,8 @@ const projectSchema = z.object({
     }),
   ).min(1),
   outcomes: z.array(z.string().trim().min(1).max(300)).min(1),
+  repoUrl: z.string().trim().url().optional().or(z.literal('')),
+  liveUrl: z.string().trim().url().optional().or(z.literal('')),
 })
 
 const reorderSchema = z.object({
@@ -46,6 +48,8 @@ function toAdminProject(document: AdminProjectDocument) {
     stack: document.stack,
     metrics: document.metrics,
     outcomes: document.outcomes,
+    repoUrl: document.repoUrl,
+    liveUrl: document.liveUrl,
   }
 }
 

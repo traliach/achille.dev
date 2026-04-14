@@ -28,6 +28,8 @@ const projectSchema = new Schema<ProjectDocument>(
     stack: [{ type: String, required: true, trim: true }],
     metrics: { type: [metricSchema], required: true },
     outcomes: [{ type: String, required: true, trim: true }],
+    repoUrl: { type: String, trim: true },
+    liveUrl: { type: String, trim: true },
   },
   {
     collection: 'projects',

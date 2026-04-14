@@ -122,6 +122,8 @@ export const projectSummaries: ProjectSummary[] = [
       'AI chat widget converts plain-language queries into live deal filters.',
       'Shopping cart with localStorage persistence, order history, and Stripe checkout.',
     ],
+    repoUrl: 'https://github.com/traliach/restaurant-deals-web',
+    liveUrl: 'https://perscholascapstoneaat.netlify.app',
   },
   {
     title: 'Global PACS — Hybrid Cloud Medical Imaging',
@@ -145,6 +147,8 @@ export const projectSummaries: ProjectSummary[] = [
       'Python scripts reduced manual setup steps and enforced consistent initialization.',
       'Runbooks documented every failure mode for repeatable remediation.',
     ],
+    repoUrl: '',
+    liveUrl: '',
   },
   {
     title: 'achille.tech — Developer Portfolio',
@@ -168,6 +172,8 @@ export const projectSummaries: ProjectSummary[] = [
       'Terraform provisions MongoDB Atlas cluster; one command stands up or tears down the full stack.',
       'PDF resume rendered from live data — two-page print layout with navy sidebar and EN/FR toggle.',
     ],
+    repoUrl: 'https://github.com/traliach/achille.dev',
+    liveUrl: 'https://achille.tech',
   },
   {
     title: 'Mercedes-Benz DMS — Pipeline Modernization',
@@ -191,6 +197,8 @@ export const projectSummaries: ProjectSummary[] = [
       'Docker, Ansible, and Kubernetes automation cut manual effort by ~20%.',
       'Pipeline security controls reduced vulnerabilities by ~15%.',
     ],
+    repoUrl: '',
+    liveUrl: '',
   },
   {
     title: 'cloud_resume_infra — AWS Resume Platform',
@@ -214,6 +222,8 @@ export const projectSummaries: ProjectSummary[] = [
       'Atomic Lambda visitor counter with least-privilege IAM and CORS scoped to origin.',
       'Three CloudWatch alarms monitor Lambda error rate, p95 duration, and throttles.',
     ],
+    repoUrl: 'https://github.com/traliach/cloud_resume_infra',
+    liveUrl: 'https://resume.achille.tech',
   },
   {
     title: 'k8s-platform-lab — Self-Hosted Kubernetes Platform',
@@ -237,6 +247,8 @@ export const projectSummaries: ProjectSummary[] = [
       'Custom Grafana dashboard tracks live sample app metrics scraped by Prometheus.',
       'verify-cluster.sh runs 21 end-to-end platform health checks in a single command.',
     ],
+    repoUrl: 'https://github.com/traliach/k8s-platform-lab',
+    liveUrl: '',
   },
   {
     title: 'devops_platform — Self-Hosted DevOps Platform',
@@ -260,6 +272,8 @@ export const projectSummaries: ProjectSummary[] = [
       'Jenkins configured entirely as code with JCasC — no manual UI setup.',
       'EC2 access via AWS SSM Session Manager — no open port 22, no SSH key.',
     ],
+    repoUrl: 'https://github.com/traliach/devops_platform',
+    liveUrl: '',
   },
 ]
 

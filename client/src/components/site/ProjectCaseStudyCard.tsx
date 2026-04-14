@@ -14,6 +14,62 @@ interface ProjectCaseStudyCardProps {
   layout?: 'full' | 'stacked'
 }
 
+const DEVOPS_TITLES = new Set([
+  'cloud_resume_infra — AWS Resume Platform',
+  'k8s-platform-lab — Self-Hosted Kubernetes Platform',
+  'devops_platform — Self-Hosted DevOps Platform',
+  'Global PACS — Hybrid Cloud Medical Imaging',
+  'Mercedes-Benz DMS — Pipeline Modernization',
+])
+
+function getCategory(title: string): string {
+  return DEVOPS_TITLES.has(title) ? 'DevOps / Cloud / IaC' : 'Full-Stack Application'
+}
+
+function ExternalLinkIcon() {
+  return (
+    <svg aria-hidden width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <path
+        d="M3.5 1H1v10h10V8.5M11 1H6.5M11 1v4.5M11 1L5.5 6.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function ProjectLinks({ repoUrl, liveUrl }: { repoUrl?: string; liveUrl?: string }) {
+  if (!repoUrl && !liveUrl) return null
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {repoUrl && (
+        <a
+          href={repoUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-4 py-1.5 text-xs font-semibold text-muted transition duration-200 hover:border-accent/25 hover:text-accent-deep"
+        >
+          <ExternalLinkIcon />
+          View repo
+        </a>
+      )}
+      {liveUrl && (
+        <a
+          href={liveUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-4 py-1.5 text-xs font-semibold text-muted transition duration-200 hover:border-accent/25 hover:text-accent-deep"
+        >
+          <ExternalLinkIcon />
+          View live
+        </a>
+      )}
+    </div>
+  )
+}
+
 export function ProjectCaseStudyCard({
   project,
   layout = 'stacked',
@@ -35,7 +91,7 @@ export function ProjectCaseStudyCard({
           <div className="flex flex-col gap-7">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="space-y-4">
-                <Eyebrow>{project.featured ? 'Featured project' : 'Selected project'}</Eyebrow>
+                <Eyebrow>{getCategory(project.title)}</Eyebrow>
                 <div className="space-y-3">
                   <h2 className={headingClasses.section}>{project.title}</h2>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -101,6 +157,8 @@ export function ProjectCaseStudyCard({
                 ))}
               </div>
             </div>
+
+            <ProjectLinks repoUrl={project.repoUrl} liveUrl={project.liveUrl} />
           </aside>
         </div>
       ) : (
@@ -108,7 +166,7 @@ export function ProjectCaseStudyCard({
           <div className="space-y-4">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="space-y-3">
-                <Eyebrow>Project</Eyebrow>
+                <Eyebrow>{getCategory(project.title)}</Eyebrow>
                 <div className="space-y-2">
                   <h2 className={headingClasses.card}>{project.title}</h2>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
@@ -156,10 +214,13 @@ export function ProjectCaseStudyCard({
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 border-t border-line/60 pt-5">
-            {project.stack.map((item) => (
-              <Tag key={item}>{item}</Tag>
-            ))}
+          <div className="mt-auto space-y-3 border-t border-line/60 pt-5">
+            <div className="flex flex-wrap items-center gap-2">
+              {project.stack.map((item) => (
+                <Tag key={item}>{item}</Tag>
+              ))}
+            </div>
+            <ProjectLinks repoUrl={project.repoUrl} liveUrl={project.liveUrl} />
           </div>
         </div>
       )}

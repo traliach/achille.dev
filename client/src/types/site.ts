@@ -51,6 +51,8 @@ export interface ProjectSummary {
     value: string
   }>
   outcomes: string[]
+  repoUrl?: string
+  liveUrl?: string
 }
 
 export interface SkillGroup {
