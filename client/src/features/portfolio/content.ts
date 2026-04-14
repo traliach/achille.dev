@@ -15,6 +15,7 @@ export const certificationLinks: Record<string, string> = {
   'AWS Certified DevOps Engineer – Professional': 'https://www.credly.com/badges/cf4257f0-c48c-4ac9-9e40-aa39af363975',
   'AWS Certified DevOps Engineer - Professional': 'https://www.credly.com/badges/cf4257f0-c48c-4ac9-9e40-aa39af363975',
   'AWS Certified Cloud Practitioner': 'https://www.credly.com/badges/3b65cf67-1576-42ef-a926-fda8366c88bb',
+  'IBM Software Engineering Essentials': 'https://www.credly.com/users/ali-achille-traore',
   'Google IT Support Professional Certificate': 'https://www.credly.com/badges/a4afd99a-9bd5-44af-a5bd-ebe2b5e1bbc4',
 }
 
@@ -25,7 +26,7 @@ export const fallbackProfile: ProfileContent = {
   availability:
     'EAD — authorized to work in the US. Open to DevOps, platform engineering, and full-stack software engineering roles.',
   summary:
-    'Platform and DevOps engineer with 7+ years building CI/CD pipelines, cloud infrastructure, and Kubernetes platforms — plus a full-stack track shipping React/TypeScript frontends and Node.js/Express APIs into production.',
+    'Platform and DevOps engineer with 8+ years building CI/CD pipelines, cloud infrastructure, and Kubernetes platforms — plus a full-stack track shipping React/TypeScript frontends and Node.js/Express APIs into production.',
   intro:
     'My portfolio spans both disciplines: cloud and IaC projects (Terraform-provisioned AWS infrastructure, self-hosted Kubernetes on EC2, Jenkins + Ansible platforms) and full-stack applications (MERN marketplace, medical imaging system, this site).',
   about:
@@ -33,6 +34,7 @@ export const fallbackProfile: ProfileContent = {
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
+    'IBM Software Engineering Essentials',
     'Google IT Support Professional Certificate',
   ],
   strengths: [
@@ -47,25 +49,25 @@ export const fallbackProfile: ProfileContent = {
       title: 'DevOps Engineer, Dominion Systems',
       period: 'August 2018 – Present',
       detail:
-        'Improved CI/CD pipelines (Jenkins, Azure DevOps), cutting build/deploy time by ~30% and sustaining ~99.9% uptime across 10+ Kubernetes/OpenShift clusters. Automated 50+ infrastructure components with Terraform and Ansible.',
+        'Restored failed Jenkins pipelines, reduced cloud spend by $500–$2,000/month through Cost Explorer audits, eliminated lateral movement risk by consolidating IAM roles into least-privilege per-service policies, cut new client environment provisioning from ~30 minutes to sub-5 minutes with Terraform + Ansible + Bash, and resolved CrashLoopBackOff incidents via kubectl diagnostics across 10+ Kubernetes/OpenShift clusters.',
     },
     {
       title: 'Independent Platform Engineering',
       period: '2025 – 2026',
       detail:
-        'Built three production-grade infrastructure projects independently: cloud_resume_infra (20 AWS resources via Terraform, live at resume.achille.tech), k8s-platform-lab (self-hosted k3s cluster on EC2 with ArgoCD GitOps and Prometheus/Grafana), and devops_platform (Terraform + Ansible + Jenkins + Docker Compose, SSM access, no open SSH).',
+        'Built three production-grade infrastructure projects: cloud_resume_infra (20 AWS resources via Terraform, $0.00/month, live at resume.achille.tech), k8s-platform-lab (k3s on EC2 with ArgoCD GitOps, 21/21 health checks, ~30-min RTO validated), and devops_platform (~46-second Jenkins pipeline, JCasC, Ansible Vault, SSM access, no open SSH port).',
     },
     {
       title: 'AWS Cloud Engineer, Dominion Systems',
       period: 'June 2017 – July 2018',
       detail:
-        'AWS infrastructure operations — CloudFormation, CodePipeline, API Gateway, RDS, DynamoDB, Aurora, Transit Gateway, and hybrid connectivity.',
+        'Improved infrastructure delivery efficiency ~25% migrating to CloudFormation, CodePipeline, CodeBuild, and CodeCommit. Increased EC2 utilization ~20% through right-sizing and auto-scaling. Achieved 100% pass rate across security audits with least-privilege IAM and Transit Gateway hybrid networking.',
     },
     {
       title: 'Full-Stack & AI-Native Development',
       period: '2025 – Present',
       detail:
-        'Per Scholas Software Engineer / AI-Native track — intensive program in full-stack and AI-integrated development covering React, TypeScript, Node.js, and cloud-native patterns.',
+        'Per Scholas AI-Native Software Engineering track — shipped full-stack MERN applications including a 3-role marketplace (Stripe, Groq AI, RBAC) and this portfolio platform (React 19, Node.js, MongoDB Atlas, Terraform, 4-job CI/CD pipeline).',
     },
   ],
   links: {
@@ -218,9 +220,9 @@ export const projectSummaries: ProjectSummary[] = [
       { label: 'Actual Cost', value: '$0.00 / month' },
     ],
     outcomes: [
-      'Live at resume.achille.tech — HTTPS via CloudFront + ACM, S3 fully private behind OAC.',
-      'Atomic Lambda visitor counter with least-privilege IAM and CORS scoped to origin.',
-      'Three CloudWatch alarms monitor Lambda error rate, p95 duration, and throttles.',
+      '20 AWS resources provisioned by Terraform with zero console clicks; Lambda IAM role scoped to GetItem + UpdateItem on a single table ARN; 4/4 unit tests passing; live at resume.achille.tech.',
+      '$0.00 actual monthly cost verified via AWS Cost Explorer — all services within free tier.',
+      '3 CloudWatch alarms active: error rate via metric math, p95 duration > 3s, and throttles — with confirmed SNS email subscription.',
     ],
     repoUrl: 'https://github.com/traliach/cloud_resume_infra',
     liveUrl: 'https://resume.achille.tech',
@@ -243,9 +245,9 @@ export const projectSummaries: ProjectSummary[] = [
       { label: 'Observability', value: 'Prometheus + Grafana' },
     ],
     outcomes: [
-      'Push to main auto-syncs all workloads to the cluster via ArgoCD — no manual kubectl apply.',
-      'Custom Grafana dashboard tracks live sample app metrics scraped by Prometheus.',
-      'verify-cluster.sh runs 21 end-to-end platform health checks in a single command.',
+      '21/21 automated health checks passing via verify-cluster.sh — k3s cluster with 5 ArgoCD-managed apps Synced + Healthy, network policies on 3 namespaces, PDB enforcing minAvailable: 1.',
+      '~30-minute RTO validated live: dr-timer.sh automates full rebuild from terraform apply through 21/21 checks — tested on 2026-04-13 after a real terraform destroy.',
+      'CI pipeline (helm lint + kubectl dry-run + terraform validate) green on every PR; 6 Architecture Decision Records; v1.0.0 released with Docker image pushed to GHCR.',
     ],
     repoUrl: 'https://github.com/traliach/k8s-platform-lab',
     liveUrl: '',
@@ -268,9 +270,9 @@ export const projectSummaries: ProjectSummary[] = [
       { label: 'Jenkins config', value: 'JCasC (fully as code)' },
     ],
     outcomes: [
-      'Every push triggers a full build, GHCR push, and EC2 redeploy via Jenkins in ~60 seconds.',
-      'Jenkins configured entirely as code with JCasC — no manual UI setup.',
-      'EC2 access via AWS SSM Session Manager — no open port 22, no SSH key.',
+      '~46-second end-to-end CI/CD pipeline (Checkout → Build → Docker Build → Push GHCR → Deploy) — 4 Prometheus alerting rules verified firing including a live JenkinsDown alert.',
+      '0 secrets committed to git: Ansible Vault AES256 encrypts all credentials; Ansible writes a root:root 600 .env at deploy time.',
+      'Entire platform reproducible from a single make deploy on a fresh Terraform-provisioned EC2 instance — Jenkins via JCasC, Grafana dashboards from code, zero manual UI setup.',
     ],
     repoUrl: 'https://github.com/traliach/devops_platform',
     liveUrl: '',

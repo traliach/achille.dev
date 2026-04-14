@@ -7,7 +7,7 @@ export const profile: ProfileContent = {
   availability:
     'Open to DevOps, platform engineering, and full-stack software engineering roles.',
   summary:
-    'Platform and DevOps engineer with 7+ years building CI/CD pipelines, cloud infrastructure, and Kubernetes platforms — plus a full-stack track shipping React/TypeScript frontends and Node.js/Express APIs into production.',
+    'Platform and DevOps engineer with 8+ years building CI/CD pipelines, cloud infrastructure, and Kubernetes platforms — plus a full-stack track shipping React/TypeScript frontends and Node.js/Express APIs into production.',
   intro:
     'My portfolio spans both disciplines: cloud and IaC projects (Terraform-provisioned AWS infrastructure, self-hosted Kubernetes on EC2, Jenkins + Ansible platforms) and full-stack applications (MERN marketplace, medical imaging system, this site).',
   about:
@@ -15,6 +15,7 @@ export const profile: ProfileContent = {
   certifications: [
     'AWS Certified DevOps Engineer – Professional',
     'AWS Certified Cloud Practitioner',
+    'IBM Software Engineering Essentials',
     'Google IT Support Professional Certificate',
   ],
   strengths: [
@@ -29,25 +30,25 @@ export const profile: ProfileContent = {
       title: 'DevOps Engineer, Dominion Systems',
       period: 'August 2018 – Present',
       detail:
-        'Improved CI/CD pipelines (Jenkins, Azure DevOps), cutting build/deploy time by ~30% and sustaining ~99.9% uptime across 10+ Kubernetes/OpenShift clusters. Automated 50+ infrastructure components with Terraform and Ansible.',
+        'Restored failed Jenkins pipelines, reduced cloud spend by $500–$2,000/month through Cost Explorer audits, eliminated lateral movement risk by consolidating IAM roles into least-privilege per-service policies, cut new client environment provisioning from ~30 minutes to sub-5 minutes with Terraform + Ansible + Bash, and resolved CrashLoopBackOff incidents via kubectl diagnostics across 10+ Kubernetes/OpenShift clusters.',
     },
     {
       title: 'Independent Platform Engineering',
       period: '2025 – 2026',
       detail:
-        'Built three production-grade infrastructure projects independently: cloud_resume_infra (20 AWS resources via Terraform, live at resume.achille.tech), k8s-platform-lab (self-hosted k3s cluster on EC2 with ArgoCD GitOps and Prometheus/Grafana), and devops_platform (Terraform + Ansible + Jenkins + Docker Compose, SSM access, no open SSH).',
+        'Built three production-grade infrastructure projects: cloud_resume_infra (20 AWS resources via Terraform, $0.00/month, live at resume.achille.tech), k8s-platform-lab (k3s on EC2 with ArgoCD GitOps, 21/21 health checks, ~30-min RTO validated), and devops_platform (~46-second Jenkins pipeline, JCasC, Ansible Vault, SSM access, no open SSH port).',
     },
     {
       title: 'AWS Cloud Engineer, Dominion Systems',
       period: 'June 2017 – July 2018',
       detail:
-        'AWS infrastructure operations — CloudFormation, CodePipeline, API Gateway, RDS, DynamoDB, Aurora, Transit Gateway, and hybrid connectivity.',
+        'Improved infrastructure delivery efficiency ~25% migrating to CloudFormation, CodePipeline, CodeBuild, and CodeCommit. Increased EC2 utilization ~20% through right-sizing and auto-scaling. Achieved 100% pass rate across security audits with least-privilege IAM and Transit Gateway hybrid networking.',
     },
     {
       title: 'Full-Stack & AI-Native Development',
       period: '2025 – Present',
       detail:
-        'Per Scholas Software Engineer / AI-Native track — intensive program in full-stack and AI-integrated development covering React, TypeScript, Node.js, and cloud-native patterns.',
+        'Per Scholas AI-Native Software Engineering track — shipped full-stack MERN applications including a 3-role marketplace (Stripe, Groq AI, RBAC) and this portfolio platform (React 19, Node.js, MongoDB Atlas, Terraform, 4-job CI/CD pipeline).',
     },
   ],
   links: {

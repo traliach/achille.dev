@@ -137,6 +137,10 @@ export function ResumePage() {
               </a>
             </div>
             <div className="resume-contact-item">{profile.location}</div>
+            <div className="resume-contact-item">(646) 750-8151</div>
+            <div className="resume-contact-item">
+              <a href="https://achille.tech" target="_blank" rel="noreferrer">achille.tech</a>
+            </div>
           </div>
 
           {/* Summary */}
@@ -145,10 +149,10 @@ export function ResumePage() {
             <p className="resume-summary">{profile.summary}</p>
           </div>
 
-          {/* Skills — compact overview */}
+          {/* Skills — DevOps groups only (full table on page 2) */}
           <div className="resume-sidebar-section">
             <p className="resume-sidebar-heading">Skills</p>
-            {skills.map((group) => (
+            {skills.slice(0, 4).map((group) => (
               <div className="resume-sidebar-skill" key={group.eyebrow}>
                 <span className="resume-sidebar-skill-label">{group.eyebrow}</span>
                 <span className="resume-sidebar-skill-items">{group.items.join(', ')}</span>
@@ -213,6 +217,12 @@ export function ResumePage() {
           <div className="resume-sidebar-section">
             <p className="resume-sidebar-heading">Availability</p>
             <p className="resume-summary">{profile.availability}</p>
+          </div>
+          <div className="resume-sidebar-section">
+            <p className="resume-sidebar-heading">Certifications</p>
+            {profile.certifications.map((cert) => (
+              <div className="resume-contact-item" key={cert}>· {cert}</div>
+            ))}
           </div>
           <div className="resume-sidebar-section">
             <p className="resume-sidebar-heading">Contact</p>
