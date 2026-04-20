@@ -20,7 +20,7 @@ export const certificationLinks: Record<string, string> = {
 }
 
 export const fallbackProfile: ProfileContent = {
-  name: 'Ali Achille Traore',
+  name: 'Achille Traore',
   title: 'DevOps Engineer & Full-Stack Software Engineer',
   location: 'Remote / Hybrid / On-site (US-wide)',
   availability:

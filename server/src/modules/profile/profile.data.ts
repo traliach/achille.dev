@@ -1,7 +1,7 @@
 import type { ProfileContent } from '../../types/content.js'
 
 export const profile: ProfileContent = {
-  name: 'Ali Achille Traore',
+  name: 'Achille Traore',
   title: 'DevOps Engineer & Full-Stack Software Engineer',
   location: 'Remote / Hybrid / On-site (US-wide)',
   availability:

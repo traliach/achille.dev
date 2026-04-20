@@ -26,7 +26,7 @@ export function ResumePage() {
   useEffect(() => {
     document.title = `${profile.name} | Resume`
     return () => {
-      document.title = 'Ali Achille Traore | Portfolio'
+      document.title = 'Achille Traore | Portfolio'
     }
   }, [profile.name])
 

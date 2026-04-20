@@ -14,37 +14,37 @@ import { SkillsPage } from './SkillsPage'
 
 const pageMetadata = {
   '/': {
-    title: 'Ali Achille Traore | DevOps Engineer & Full-Stack Software Engineer',
+    title: 'Achille Traore | DevOps Engineer & Full-Stack Software Engineer',
     description:
-      'Portfolio for Ali Achille Traore, focused on DevOps, cloud infrastructure, CI/CD, and modern full-stack engineering.',
+      'Portfolio for Achille Traore, focused on DevOps, cloud infrastructure, CI/CD, and modern full-stack engineering.',
   },
   '/about': {
-    title: 'About | Ali Achille Traore',
+    title: 'About | Achille Traore',
     description:
-      'Background, strengths, timeline, and engineering focus for Ali Achille Traore.',
+      'Background, strengths, timeline, and engineering focus for Achille Traore.',
   },
   '/projects': {
-    title: 'Projects | Ali Achille Traore',
+    title: 'Projects | Achille Traore',
     description:
       'Project case studies covering cloud delivery, CI/CD, infrastructure automation, and platform reliability.',
   },
   '/skills': {
-    title: 'Skills | Ali Achille Traore',
+    title: 'Skills | Achille Traore',
     description:
       'Curated technical skills across cloud platforms, automation, infrastructure as code, and full-stack application work.',
   },
   '/contact': {
-    title: 'Contact | Ali Achille Traore',
+    title: 'Contact | Achille Traore',
     description:
-      'Contact Ali Achille Traore for DevOps roles, cloud delivery work, and engineering conversations.',
+      'Contact Achille Traore for DevOps roles, cloud delivery work, and engineering conversations.',
   },
 } as const
 
 function updateMetadata(currentPath: string) {
   const metadata = pageMetadata[currentPath as keyof typeof pageMetadata] ?? {
-    title: 'Ali Achille Traore | Portfolio',
+    title: 'Achille Traore | Portfolio',
     description:
-      'Portfolio for Ali Achille Traore covering DevOps, cloud delivery, and full-stack engineering.',
+      'Portfolio for Achille Traore covering DevOps, cloud delivery, and full-stack engineering.',
   }
 
   document.title = metadata.title

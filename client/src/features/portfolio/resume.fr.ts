@@ -2,7 +2,7 @@
 import type { ProfileContent } from '../../types/site'
 
 export const profileFr: ProfileContent = {
-  name: 'Ali Achille Traore',
+  name: 'Achille Traore',
   title: 'Ingénieur DevOps et Développeur Full Stack',
   location: 'Télétravail / Hybride / Sur site (États-Unis)',
   availability:
