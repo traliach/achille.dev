@@ -8,10 +8,10 @@ import {
 const terminalLines = [
   { command: 'terraform plan -out=tfplan' },
   { output: 'Plan: 20 to add, 0 to change, 0 to destroy.' },
-  { command: 'gh workflow run deploy.yml --ref main' },
-  { output: 'Workflow queued: lint -> build -> audit -> deploy' },
-  { command: 'kubectl rollout status deploy/platform-api' },
-  { output: 'deployment "platform-api" successfully rolled out' },
+  { command: 'helm upgrade --install portal ./charts/portal --set image.tag=v1.4.2' },
+  { output: 'Release "portal" has been upgraded. Happy Helming!' },
+  { command: 'kubectl rollout status deploy/portal -n production' },
+  { output: 'deployment "portal" successfully rolled out' },
 ]
 
 export default function HeroOpsVisual() {

@@ -15,7 +15,6 @@ import {
 } from '../components/site/ui'
 import {
   bodyClass,
-  cx,
   finePrintClass,
   headingClasses,
 } from '../components/site/styles'
@@ -40,13 +39,17 @@ interface HomePageProps {
 
 const TRUST_ITEMS = [
   'Terraform',
-  'Docker',
   'Kubernetes',
-  'GitHub Actions',
   'AWS',
+  'Docker',
+  'Jenkins',
   'ArgoCD',
   'Prometheus',
+  'GitHub Actions',
+  'React',
   'TypeScript',
+  'Node.js',
+  'MongoDB',
 ]
 
 const FEATURED_PROJECT_TITLES = [
@@ -57,24 +60,24 @@ const FEATURED_PROJECT_TITLES = [
 
 const PROOF_ITEMS = [
   {
-    label: 'Cloud foundation',
-    value: 'Terraform + AWS',
-    detail: 'Infrastructure workflows documented through live portfolio labs.',
+    label: 'Current role',
+    value: 'Teledyne / CARIS',
+    detail: 'EKS, Jenkins, Helm, Terraform, Prometheus across 4 clusters.',
   },
   {
-    label: 'Release systems',
-    value: 'CI/CD gates',
-    detail: 'Build, validation, audit, and deploy checks treated as product quality.',
+    label: 'Certifications',
+    value: 'AWS DevOps Pro',
+    detail: 'AWS Certified DevOps Engineer – Professional + Cloud Practitioner.',
   },
   {
-    label: 'Platform operations',
-    value: 'GitOps + SLOs',
-    detail: 'Kubernetes and observability work shown through project proof.',
+    label: 'Full-stack',
+    value: 'MERN',
+    detail: 'React 19 + TypeScript + Node/Express + MongoDB. This site is the proof.',
   },
   {
-    label: 'Application delivery',
-    value: 'React + Node',
-    detail: 'Full-stack systems shipped with API, auth, data, and deployment paths.',
+    label: 'Infrastructure',
+    value: 'IaC + GitOps',
+    detail: 'Terraform modules, ArgoCD App-of-Apps, Helm rollback workflows.',
   },
 ]
 
@@ -83,6 +86,11 @@ const CAPABILITIES = [
     title: 'Platform engineering',
     summary: 'Design the internal delivery path so teams can deploy, observe, and recover with less guesswork.',
     tools: ['Kubernetes', 'GitOps', 'SLOs'],
+  },
+  {
+    title: 'Full-stack delivery',
+    summary: 'Ship React and Node applications with deployment, API, data, and operational paths considered together.',
+    tools: ['React', 'Express', 'MongoDB'],
   },
   {
     title: 'CI/CD modernization',
@@ -109,35 +117,8 @@ const CAPABILITIES = [
     summary: 'Add the signals teams need for triage: metrics, logs, health checks, and deploy visibility.',
     tools: ['Prometheus', 'Grafana', 'CloudWatch'],
   },
-  {
-    title: 'Full-stack delivery',
-    summary: 'Ship React and Node applications with deployment, API, data, and operational paths considered together.',
-    tools: ['React', 'Express', 'MongoDB'],
-  },
 ]
 
-const WORKFLOW_STEPS = [
-  {
-    title: 'Assess',
-    detail: 'Map release friction, cloud posture, failure modes, and handoff gaps.',
-  },
-  {
-    title: 'Design',
-    detail: 'Choose the shortest architecture path that improves reliability without creating ceremony.',
-  },
-  {
-    title: 'Automate',
-    detail: 'Codify infrastructure, pipelines, checks, and repeatable operational steps.',
-  },
-  {
-    title: 'Harden',
-    detail: 'Add security, rollback, observability, and documentation where the system needs it.',
-  },
-  {
-    title: 'Operate',
-    detail: 'Leave teams with clear signals, runbooks, and a platform they can keep improving.',
-  },
-]
 
 function getFeaturedProjects(projects: ProjectSummary[]) {
   return FEATURED_PROJECT_TITLES
@@ -172,13 +153,13 @@ export function HomePage({
 
             <div className="space-y-5">
               <h1 className={headingClasses.display}>
-                Build safer releases, stronger cloud foundations, and fewer
-                production surprises.
+                DevOps Engineer. Full-Stack Builder. AWS Certified.
               </h1>
               <p className="max-w-2xl text-base leading-8 text-text-muted sm:text-lg">
-                DevOps Engineer and full-stack builder focused on CI/CD,
-                infrastructure automation, Kubernetes operations, observability,
-                and production React/Node systems.
+                5+ years shipping CI/CD pipelines, Kubernetes platforms, and
+                cloud infrastructure on AWS — plus production MERN applications
+                end to end. Currently at Teledyne Technologies. Open to senior
+                DevOps, SRE, and platform engineering roles.
               </p>
             </div>
 
@@ -222,10 +203,10 @@ export function HomePage({
       <SiteSection>
         <div className="reveal grid gap-8">
           <PageIntro
-            description="Capability areas are framed around practical reliability outcomes: clearer releases, repeatable environments, safer handoffs, and production systems that are easier to troubleshoot."
+            description="From Kubernetes platforms and CI/CD pipelines to production MERN applications — these are the areas where I have shipped real work and can contribute from day one."
             eyebrow="Capabilities"
             size="section"
-            title="DevOps support for the systems teams depend on."
+            title="What I bring to a senior DevOps or platform engineering role."
           />
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -281,51 +262,24 @@ export function HomePage({
       </SiteSection>
 
       <SiteSection>
-        <div className="reveal grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]">
-          <div className="space-y-4">
-            <Eyebrow>How I work</Eyebrow>
-            <h2 className={headingClasses.section}>
-              Start with the risk, then automate the path out.
-            </h2>
-            <p className={bodyClass}>
-              The goal is not more dashboards or process. It is a clearer
-              release path, fewer unclear failures, and systems that are easier
-              to operate after the first handoff.
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-5">
-            {WORKFLOW_STEPS.map((step, index) => (
-              <SurfaceCard className="relative flex flex-col gap-4" key={step.title} padding="compact">
-                <span className="font-mono text-sm font-semibold text-accent-deep">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <div className="space-y-2">
-                  <h3 className="font-display text-lg font-semibold text-text">
-                    {step.title}
-                  </h3>
-                  <p className={cx(bodyClass, 'text-sm')}>{step.detail}</p>
-                </div>
-              </SurfaceCard>
-            ))}
-          </div>
-        </div>
-      </SiteSection>
-
-      <SiteSection>
         <CtaBand
           actions={
             <>
               <ButtonLink href="/contact" variant="secondary">
                 Get in touch
               </ButtonLink>
-              <ButtonLink className="text-white hover:text-white" href="/contact" variant="ghost">
-                Talk through current stack
+              <ButtonLink
+                href={profile.links.resume}
+                rel="noreferrer"
+                target="_blank"
+                variant="ghost"
+              >
+                Download resume
               </ButtonLink>
             </>
           }
-          description="Share the release, cloud, reliability, or full-stack delivery problem you are trying to make less fragile."
-          title="Need a delivery platform that scales with your team?"
+          description="AWS Certified DevOps Engineer with production EKS, Terraform, and full-stack delivery experience. Based in Newark, NJ. Available onsite or hybrid."
+          title="Open to senior DevOps, SRE, and platform engineering roles."
         />
       </SiteSection>
     </>
